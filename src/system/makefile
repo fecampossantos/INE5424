@@ -10,6 +10,7 @@ install: install_$(SMOD)_$(MMOD)
 
 install_library_$(MMOD): system_library_$(MMOD)
 		$(INSTALL) system_$(MMOD).o $(LIB)
+		$(INSTALL) flash_$(MMOD).o $(LIB)
 		$(INSTALL) application_$(MMOD).o $(LIB)
 
 install_builtin_$(MMOD): system_builtin_$(MMOD)
@@ -21,9 +22,11 @@ install_kernel_$(MMOD): system_kernel_$(MMOD)
 		$(INSTALL) system_$(MMOD) $(IMG)
 		$(INSTALL) application_$(MMOD).o $(LIB)
 
-system_library_$(MMOD): system_scaffold.o application_scaffold.o
+system_library_$(MMOD): system_scaffold.o application_scaffold.o flash_scaffold.o
 		$(LD) $(LDFLAGS) -i system_scaffold.o -o system_$(MMOD).o
 		$(INSTALL) application_scaffold.o application_$(MMOD).o
+		$(INSTALL) flash_scaffold.o flash_$(MMOD).o
+		
 
 system_builtin_$(MMOD): $(OBJS)
 		$(LD) $(LDFLAGS) -L$(CCLIB) --nmagic \

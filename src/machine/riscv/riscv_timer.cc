@@ -2,6 +2,7 @@
 
 #include <machine/ic.h>
 #include <machine/timer.h>
+#include <machine/machine.h>
 
 __BEGIN_SYS
 
