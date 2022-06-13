@@ -12,6 +12,7 @@ install_library_$(MMOD): init_library_$(MMOD)
 		$(INSTALL) init_begin_$(MMOD).o $(LIB)
 		$(INSTALL) init_system_$(MMOD).o $(LIB)
 		$(INSTALL) init_application_$(MMOD).o $(LIB)
+		$(INSTALL) init_flash_$(MMOD).o $(LIB)
 		$(INSTALL) init_end_$(MMOD).o $(LIB)
 
 install_builtin_$(MMOD): init_builtin_$(MMOD)
@@ -27,6 +28,7 @@ init_library_$(MMOD): $(OBJS)
 		$(INSTALL) init_begin.o init_begin_$(MMOD).o
 		$(INSTALL) init_system.o init_system_$(MMOD).o
 		$(INSTALL) init_application.o init_application_$(MMOD).o
+		$(INSTALL) init_flash.o init_flash_$(MMOD).o
 		$(INSTALL) init_end.o init_end_$(MMOD).o
 
 init_builtin_$(MMOD): $(SRC)/system/system_$(MMOD) $(OBJS) $(LIBINIT)

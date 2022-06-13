@@ -18,10 +18,15 @@ template<> struct Traits<Machine>: public Traits<Machine_Common>
 {
 public:
     static const unsigned int NOT_USED          = 0xffffffff;
+    static const unsigned int CPUS              = Traits<Build>::CPUS;
+
+    // Flash
+    static const unsigned int FLASH_BASE        = 0x87ffff0c;
+    static const unsigned int FLASH_TOP         = 0x87ffffff;
 
     // Physical Memory
     static const unsigned int RAM_BASE          = 0x80000000;                           // 2 GB
-    static const unsigned int RAM_TOP           = 0x87ffffff;                           // 2 GB + 128 MB (max 1536 MB of RAM => RAM + MIO < 2 G)
+    static const unsigned int RAM_TOP           = 0x87ffff07;                           // 2 GB + 128 MB (max 1536 MB of RAM => RAM + MIO < 2 G)
     static const unsigned int MIO_BASE          = 0x00000000;
     static const unsigned int MIO_TOP           = 0x1fffffff;                           // 512 MB (max 512 MB of MIO => RAM + MIO < 2 G)
 
@@ -63,14 +68,16 @@ template <> struct Traits<Timer>: public Traits<Machine_Common>
     // Meaningful values for the timer frequency range from 100 to 10000 Hz. The
     // choice must respect the scheduler time-slice, i. e., it must be higher
     // than the scheduler invocation frequency.
-    static const int FREQUENCY = 1000; // Hz
+    static const int FREQUENCY = 10; // Hz
 };
 
 template <> struct Traits<UART>: public Traits<Machine_Common>
 {
     static const unsigned int UNITS = 2;
 
-    static const unsigned int CLOCK = 22729000;
+    static const unsigned int REFERENCE_CLOCK = 22729000;
+    static const unsigned int CLOCK_DIVISOR = 16;
+    static const unsigned int CLOCK = REFERENCE_CLOCK/CLOCK_DIVISOR;
 
     static const unsigned int DEF_UNIT = 1;
     static const unsigned int DEF_BAUD_RATE = 115200;
@@ -91,7 +98,7 @@ template<> struct Traits<Serial_Display>: public Traits<Machine_Common>
 
 template<> struct Traits<Scratchpad>: public Traits<Machine_Common>
 {
-    static const bool enabled = false;
+    static const bool enabled = true;
 };
 
 __END_SYS

@@ -85,6 +85,8 @@ void Setup::say_hi()
     if(si->bm.application_offset == -1U) {
         db<Setup>(ERR) << "No APPLICATION in boot image, you don't need EPOS!" << endl;
         panic();
+    } else {
+        si->lm.has_app = true;
     }
 
     kout << "This is EPOS!\n" << endl;
@@ -92,9 +94,9 @@ void Setup::say_hi()
     kout << "  Mode:         " << ((Traits<Build>::MODE == Traits<Build>::LIBRARY) ? "library" : (Traits<Build>::MODE == Traits<Build>::BUILTIN) ? "built-in" : "kernel") << endl;
     kout << "  Processor:    " << Traits<Machine>::CPUS << " x RV" << Traits<CPU>::WORD_SIZE << " at " << Traits<CPU>::CLOCK / 1000000 << " MHz (BUS clock = " << Traits<CPU>::CLOCK / 1000000 << " MHz)" << endl;
     kout << "  Machine:      SiFive-U" << endl;
-    kout << "  Memory:       " << (RAM_TOP + 1 - RAM_BASE) / 1024 << " KB [" << reinterpret_cast<void *>(RAM_BASE) << ":" << reinterpret_cast<void *>(RAM_TOP) << "]" << endl;
+    kout << "  Memory:       " << (si->bm.mem_top - si->bm.mem_base) / 1024 << " KB [" << reinterpret_cast<void *>(si->bm.mem_base) << ":" << reinterpret_cast<void *>(si->bm.mem_top) << "]" << endl;
     kout << "  User memory:  " << (FREE_TOP - FREE_BASE) / 1024 << " KB [" << reinterpret_cast<void *>(FREE_BASE) << ":" << reinterpret_cast<void *>(FREE_TOP) << "]" << endl;
-    kout << "  I/O space:    " << (MIO_TOP + 1 - MIO_BASE) / 1024 << " KB [" << reinterpret_cast<void *>(MIO_BASE) << ":" << reinterpret_cast<void *>(MIO_TOP) << "]" << endl;
+    kout << "  I/O space:    " << (si->bm.mio_top - si->bm.mio_base) / 1024 << " KB [" << reinterpret_cast<void *>(si->bm.mio_base) << ":" << reinterpret_cast<void *>(si->bm.mio_top) << "]" << endl;
     kout << "  Node Id:      ";
     if(si->bm.node_id != -1)
         kout << si->bm.node_id << " (" << Traits<Build>::NODES << ")" << endl;
@@ -105,7 +107,15 @@ void Setup::say_hi()
         kout << "(" << si->bm.space_x << "," << si->bm.space_y << "," << si->bm.space_z << ")" << endl;
     else
         kout << "will get from the network!" << endl;
-    if(si->bm.extras_offset != -1UL)
+    if(si->lm.has_stp)
+        kout << "  Setup:        " << si->lm.stp_code_size + si->lm.stp_data_size << " bytes" << endl;
+    if(si->lm.has_ini)
+        kout << "  Init:         " << si->lm.ini_code_size + si->lm.ini_data_size << " bytes" << endl;
+    if(si->lm.has_sys)
+        kout << "  OS code:      " << si->lm.sys_code_size << " bytes" << "\tdata: " << si->lm.sys_data_size << " bytes" << "   stack: " << si->lm.sys_stack_size << " bytes" << endl;
+    if(si->lm.has_app)
+        kout << "  APP code:     " << si->lm.app_code_size << " bytes" << "\tdata: " << si->lm.app_data_size << " bytes" << endl;
+    if(si->lm.has_ext)
         kout << "  Extras:       " << si->lm.app_extra_size << " bytes" << endl;
 
     kout << endl;
@@ -114,11 +124,12 @@ void Setup::say_hi()
 void Setup::call_next()
 {
     // Check for next stage and obtain the entry point
-    Log_Addr pc = &_start;
+    Log_Addr pc;
+
+    pc = &_start;
 
     db<Setup>(INF) << "SETUP ends here!" << endl;
 
-    // Call the next stage
     static_cast<void (*)()>(pc)();
 
     // SETUP is now part of the free memory and this point should never be reached, but, just in case ... :-)
@@ -131,18 +142,18 @@ using namespace EPOS::S;
 
 void _entry() // machine mode
 {
-    if(CPU::mhartid() != 0)                             // SiFive-U requires 2 cores, so we disable core 1 here
+    
+    if (CPU::id() != 0)
         CPU::halt();
 
     CPU::mstatusc(CPU::MIE);                            // disable interrupts (they will be reenabled at Init_End)
     CPU::mies(CPU::MSI);                                // enable interrupts at CLINT so IPI and timer can be triggered
     CLINT::mtvec(CLINT::DIRECT, _int_entry);            // setup a preliminary machine mode interrupt handler pointing it to _int_entry
 
-    CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE - sizeof(long)); // set this hart stack
-
+    CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE * (CPU::id() + 1) - sizeof(long)); // set this hart stack (the first stack is reserved for _int_m2s)
     Machine::clear_bss();
 
-    CPU::mstatus(CPU::MPP_M);                           // stay in machine mode at mret
+    CPU::mstatus(CPU::MPP_M | CPU::MPIE);               // stay in machine mode and reenable interrupts at mret
 
     CPU::mepc(CPU::Reg(&_setup));                       // entry = _setup
     CPU::mret();                                        // enter supervisor mode at setup (mepc) with interrupts enabled (mstatus.mpie = true)
@@ -150,5 +161,8 @@ void _entry() // machine mode
 
 void _setup() // supervisor mode
 {
+    if (CPU::int_disabled())
+        CPU::halt();
+
     Setup setup;
 }

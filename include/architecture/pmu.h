@@ -22,7 +22,7 @@ public:
 protected:
     static const unsigned int CHANNELS = 0;
     static const unsigned int FIXED = 0;
-    static const unsigned int EVENTS = LAST_EVENT;
+    static const unsigned int EVENTS = 0;
     static const unsigned int UNSUPORTED_EVENT = -1U;
 
 protected:

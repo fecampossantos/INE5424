@@ -29,8 +29,9 @@ void Machine::reboot()
 #endif
 
 #if defined(__sifive_u__) && defined(__rv32__)
-        CPU::Reg * reset = reinterpret_cast<CPU::Reg *>(Memory_Map::TEST_BASE);
-        reset[0] = 0x5555;
+        while(true);
+        // CPU::Reg * reset = reinterpret_cast<CPU::Reg *>(Memory_Map::TEST_BASE);
+        // reset[0] = 0x5555;
 #endif
 
         while(true);

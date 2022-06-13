@@ -1,298 +1,324 @@
-// EPOS RV64 PMU Mediator Declarations
+// Hardware Performance Monitor (HPM)
 
 #ifndef __rv64_pmu_h
 #define __rv64_pmu_h
 
 #include <architecture/cpu.h>
-#define __pmu_common_only__
+#define __common_only__
 #include <architecture/pmu.h>
-#undef __pmu_common_only__
+#undef __common_only__
 
 __BEGIN_SYS
 
 class RV64_PMU: public PMU_Common
 {
+
 private:
-    typedef CPU::Reg Reg;
+    typedef CPU::Reg8 Reg8;
+    typedef CPU::Reg64 Reg64;
 
 protected:
-    static const unsigned int COUNTERS = 32;
-    static const unsigned int CHANNELS = 32;
-    static const unsigned int FIXED    = 3;
+    static const unsigned int CHANNELS = 29;
+    static const unsigned int FIXED = 0;
+    static const unsigned int EVENTS = 34;
 
 public:
+        
+    RV64_PMU() {};
+
+    // Machine Hardware Performance Monitor Event Register
+
+    // Instruction Commit Events, mhpmeventX[7:0] = 0
     enum {
-        // Instruction Commit events (mhpmeventX[7:0] = 0)
-        CYCLES                                          = 0,
-        TIME                                            = 1,
-        INSTRUCTIONS_RETIRED                            = 2,
-        EXCEPTIONS_TAKEN                                = 1 << 8,
-        INTEGER_LOAD_INSTRUCTIONS_RETIRED               = 1 << 9,
-        INTEGER_STORE_INSTRUCTIONS_RETIRED              = 1 << 10,
-        ATOMIC_MEMEMORY_INSTRUCTIONS_RETIRED            = 1 << 11,
-        SYSTEM_INSTRUCTIONS_RETIRED                     = 1 << 12,
-        INTEGER_ARITHMETIC_INSTRUCTIONS_RETIRED         = 1 << 13,
-        CONDITIONAL_BRANCHES_RETIRED                    = 1 << 14,
-        JAL_INSTRUCTIONS_RETIRED                        = 1 << 15,
-        JALR_INSTRUCTIONS_RETIRED                       = 1 << 16,
-        INTEGER_MULTIPLICATION_INSTRUCTIONS_RETIRED     = 1 << 17,
-        INTEGER_DIVISION_INSTRUCTIONS_RETIRED           = 1 << 18,
-
-        // Microarchitectural events (mhpmeventX[7:0] = 1)
-        LOAD_USE_INTERLOCK                              = 1 <<  8 | 1,
-        LONG_LATENCY_INTERLOCK                          = 1 <<  9 | 1,
-        CSR_READ_INTERLOCK                              = 1 << 10 | 1,
-        INSTRUCTION_CACHE_ITIM_BUSY                     = 1 << 11 | 1,
-        DATA_CACHE_DTIM_BUSY                            = 1 << 12 | 1,
-        BRANCH_DIRECTION_MISPREDICTION                  = 1 << 13 | 1,
-        BRANCH_JUMP_TARGET_MISPREDICTION                = 1 << 14 | 1,
-        PIPELINE_FLUSH_FROM_CSR_WRITE                   = 1 << 15 | 1,
-        PIPELINE_FLUSH_FROM_OTHER_EVENT                 = 1 << 16 | 1,
-        INTEGER_MULTIPLICATION_INTERLOCK                = 1 << 17 | 1,
-
-        // Memory System events (mhpmeventX[7:0] = 2)
-        INSTRUCTION_CACHE_MISS                          = 1 <<  8 | 2,
-        MEMORY_MAPPED_IO_ACCESS                         = 1 <<  9 | 2
+        EXCEPTION_TAKEN                                 = 8,
+        INTEGER_LOAD_INSTRUCTION_RETIRED                = 9,
+        INTEGER_STORE_INSTRUCTION_RETIRED               = 10,
+        ATOMIC_MEMORY_OPERATION_RETIRED                 = 11,
+        SYSTEM_INSTRUCTION_RETIRED                      = 12,
+        INTEGER_ARITHMETIC_INSTRUCTION_RETIRED          = 13,
+        CONDITIONAL_BRANCH_RETIRED                      = 14,
+        JAL_INSTRUCTION_RETIRED                         = 15,
+        JALR_INSTRUCTION_RETIRED                        = 16,
+        INTEGER_MULTIPLICATION_INSTRUCTION_RETIRED      = 17,
+        INTEGER_DIVISION_INSTRUCTION_RETIRED            = 18,
+        FLOATING_POINT_LOAD_INSTRUCTION_RETIRED         = 19,
+        FLOATING_POINT_STORE_INSTRUCTION_RETIRED        = 20,
+        FLOATING_POINT_ADDITION_RETIRED                 = 21,
+        FLOATING_POINT_MULTIPLICATION_RETIRED           = 22,
+        FLOATING_POINT_FUSED_MULTIPLY_ADD_RETIRED       = 23,
+        FLOATING_POINT_DIVISION_OR_SQUARE_ROOT_RETIRED  = 24,
+        OTHER_FLOATING_POINT_INSTRUCTION_RETIRED        = 25
     };
 
-public:
-    RV64_PMU() {}
+    // Microarchitectural Events , mhpmeventX[7:0] = 1
+    enum {
+        LOAD_USE_INTERLOCK                  = 8,
+        LONG_LATENCY_INTERLOCK              = 9,
+        CSR_READ_INTERLOCK                  = 10,
+        INSTRUCTION_CACHE_ITIM_BUSY         = 11,
+        DATA_CACHE_DTIM_BUSY                = 12,
+        BRANCH_DIRECTION_MISPREDICTION      = 13,
+        BRANCH_JUMP_TARGET_MISPREDICTION    = 14,
+        PIPELINE_FLUSH_FROM_CSR_WRITE       = 15,
+        PIPELINE_FLUSH_FROM_OTHER_EVENT     = 16,
+        INTEGER_MULTIPLICATION_INTERLOCK    = 17,
+        FLOATING_POINT_INTERLOCK            = 18
+    };
 
-    static void config(Channel channel, const Event event, Flags flags = NONE) {
-        assert((channel < CHANNELS) && (event < EVENTS));
+    // Memory System Events, mhpmeventX[7:0] = 2
+    enum {
+        INSTRUCTION_CACHE_MISS                      = 8,
+        DATA_CACHE_MISS_OR_MEMORY_MAPPED_IO_ACCESS  = 9,
+        DATA_CACHE_WRITEBACK                        = 10,
+        INSTRUCTION_TLB_MISS                        = 11,
+        DATA_TLB_MISS                               = 12
+    };
 
+    // mhpmevent registers
+    enum {
+        MHPMEVENT3   = 3,
+        MHPMEVENT4   = 4,
+        MHPMEVENT5   = 5,
+        MHPMEVENT6   = 6,
+        MHPMEVENT7   = 7,
+        MHPMEVENT8   = 8,
+        MHPMEVENT9   = 9,
+        MHPMEVENT10  = 10,
+        MHPMEVENT11  = 11,
+        MHPMEVENT12  = 12,
+        MHPMEVENT13  = 13,
+        MHPMEVENT14  = 14,
+        MHPMEVENT15  = 15,
+        MHPMEVENT16  = 16,
+        MHPMEVENT17  = 17,
+        MHPMEVENT18  = 18,
+        MHPMEVENT19  = 19,
+        MHPMEVENT20  = 20,
+        MHPMEVENT21  = 21,
+        MHPMEVENT22  = 22,
+        MHPMEVENT23  = 23,
+        MHPMEVENT24  = 24,
+        MHPMEVENT25  = 25,
+        MHPMEVENT26  = 26,
+        MHPMEVENT27  = 27,
+        MHPMEVENT28  = 28,
+        MHPMEVENT29  = 29,
+        MHPMEVENT30  = 30,
+        MHPMEVENT31  = 31
+    };
+
+    // mhpmcounter registers
+    enum {
+        MHPMCOUNTER3   = 3,
+        MHPMCOUNTER4   = 4,
+        MHPMCOUNTER5   = 5,
+        MHPMCOUNTER6   = 6,
+        MHPMCOUNTER7   = 7,
+        MHPMCOUNTER8   = 8,
+        MHPMCOUNTER9   = 9,
+        MHPMCOUNTER10   = 10,
+        MHPMCOUNTER11   = 11,
+        MHPMCOUNTER12   = 12,
+        MHPMCOUNTER13   = 13,
+        MHPMCOUNTER14   = 14,
+        MHPMCOUNTER15   = 15,
+        MHPMCOUNTER16   = 16,
+        MHPMCOUNTER17   = 17,
+        MHPMCOUNTER18   = 18,
+        MHPMCOUNTER19   = 19,
+        MHPMCOUNTER20   = 20,
+        MHPMCOUNTER21   = 21,
+        MHPMCOUNTER22   = 22,
+        MHPMCOUNTER23   = 23,
+        MHPMCOUNTER24   = 24,
+        MHPMCOUNTER25   = 25,
+        MHPMCOUNTER26   = 26,
+        MHPMCOUNTER27   = 27,
+        MHPMCOUNTER28   = 28,
+        MHPMCOUNTER29   = 29,
+        MHPMCOUNTER30   = 30,
+        MHPMCOUNTER31   = 31
+    };
+
+    // Event classes
+    enum {
+        INSTRUCTION_COMMIT  = 0,
+        MICROARCHITECTURAL  = 1,
+        MEMORY_SYSTEM       = 2
+    };
+   
+    // Useful bits 
+    enum {
+        EVENT_CLASS = 0xFF,
+        MIN_CHANNEL     = 3,
+        MAX_CHANNEL     = 31
+    };
+    
+    static void config(Channel channel, Event event, Flags flags = NONE) {
+        
         db<PMU>(TRC) << "PMU::config(c=" << channel << ",e=" << event << ",f=" << flags << ")" << endl;
 
-        if(((channel == 0) && (_events[event] != 0)) || ((channel == 1) && (_events[event] != 1)) || ((channel == 2) && (_events[event] != 2))) {
-            db<PMU>(WRN) << "PMU::config: channel " << channel << " is fixed in this architecture and cannot be reconfigured!" << endl;
-            return;
-        }
+        // Event = offset [31-8] | class [7-0]
 
-        if((channel >= FIXED) && (_events[event] != UNSUPORTED_EVENT)) {
-            mhpmevent(_events[event], channel);
-            start(channel);
-        }
+        Reg8 event_class = (event & EVENT_CLASS);
+
+        assert( event_class == INSTRUCTION_COMMIT || 
+                event_class == MICROARCHITECTURAL ||
+                event_class == MEMORY_SYSTEM);
+        
+        assert(channel >= MIN_CHANNEL && channel <= MAX_CHANNEL);
+
+        _monitored_events[channel - MIN_CHANNEL] = event;
+        start(channel);
     }
-
+    
     static void start(Channel channel) {
         db<PMU>(TRC) << "PMU::start(c=" << channel << ")" << endl;
-        mcounteren(mcounteren() | 1 << channel);
-    }
-
-    static Count read(Channel channel) {
-        db<PMU>(TRC) << "PMU::read(c=" << channel << ")" << endl;
-        return mhpmcounter(channel);
-    }
-
-    static void write(Channel channel, Count count) {
-        db<PMU>(TRC) << "PMU::write(ch=" << channel << ",ct=" << count << ")" << endl;
-        mhpmcounter(channel, count);
+        
+        assert(channel >= MIN_CHANNEL && channel <= MAX_CHANNEL);
+        mhpmevent(channel, _monitored_events[channel - MIN_CHANNEL]);
     }
 
     static void stop(Channel channel) {
         db<PMU>(TRC) << "PMU::stop(c=" << channel << ")" << endl;
-        if(channel < FIXED)
-            db<PMU>(WRN) << "PMU::stop(c=" << channel << ") : fixed channels cannot be stopped!" << endl;
-        mcounteren(mcounteren() & ~(1 << channel));
+
+        assert(channel >= MIN_CHANNEL && channel <= MAX_CHANNEL);
+        mhpmevent(channel, 0);
+    }
+
+    static Count read(Channel channel) { 
+        db<PMU>(TRC) << "PMU::read(c=" << channel << ")" << endl;
+
+        return mhpmcounter(channel);
+    }
+    
+    static void write(Channel channel, Count count) {
+        db<PMU>(TRC) << "PMU::write(ch=" << channel << ",ct=" << count << ")" << endl;
+
+        mhpmcounter(channel, count);
     }
 
     static void reset(Channel channel) {
         db<PMU>(TRC) << "PMU::reset(c=" << channel << ")" << endl;
+
         write(channel, 0);
     }
 
-    static void init();
-
-private:
-    static Reg mcounteren(){ Reg reg; ASM("csrr %0, mcounteren" : "=r"(reg) :); return reg;}
-    static void mcounteren(Reg reg){    ASM("csrw mcounteren, %0" : : "r"(reg));}
-
-    static Reg mhpmevent(Channel channel) {
-        Reg reg;
-        switch(channel)
-        {
-        case 3:
-            ASM("csrr %0, mhpmevent3" : : "r"(reg));
-            break;
-        case 4:
-            ASM("csrr %0, mhpmevent4" : : "r"(reg));
-            break;
-        case 5:
-            ASM("csrr %0, mhpmevent5" : : "r"(reg));
-            break;
-        case 6:
-            ASM("csrr %0, mhpmevent6" : : "r"(reg));
-            break;
-        case 7:
-            ASM("csrr %0, mhpmevent7" : : "r"(reg));
-            break;
-        case 8:
-            ASM("csrr %0, mhpmevent8" : : "r"(reg));
-            break;
-        case 9:
-            ASM("csrr %0, mhpmevent9" : : "r"(reg));
-            break;
-        case 10:
-            ASM("csrr %0, mhpmevent10" : : "r"(reg));
-            break;
-        case 11:
-            ASM("csrr %0, mhpmevent11" : : "r"(reg));
-            break;
-        case 12:
-            ASM("csrr %0, mhpmevent12" : : "r"(reg));
-            break;
-        case 13:
-            ASM("csrr %0, mhpmevent13" : : "r"(reg));
-            break;
-        case 14:
-            ASM("csrr %0, mhpmevent14" : : "r"(reg));
-            break;
-        case 15:
-            ASM("csrr %0, mhpmevent15" : : "r"(reg));
-            break;
-        case 16:
-            ASM("csrr %0, mhpmevent16" : : "r"(reg));
-            break;
-        case 17:
-            ASM("csrr %0, mhpmevent17" : : "r"(reg));
-            break;
-        case 18:
-            ASM("csrr %0, mhpmevent18" : : "r"(reg));
-            break;
-        case 19:
-            ASM("csrr %0, mhpmevent19" : : "r"(reg));
-            break;
-        case 20:
-            ASM("csrr %0, mhpmevent20" : : "r"(reg));
-            break;
-        case 21:
-            ASM("csrr %0, mhpmevent21" : : "r"(reg));
-            break;
-        case 22:
-            ASM("csrr %0, mhpmevent22" : : "r"(reg));
-            break;
-        case 23:
-            ASM("csrr %0, mhpmevent23" : : "r"(reg));
-            break;
-        case 24:
-            ASM("csrr %0, mhpmevent24" : : "r"(reg));
-            break;
-        case 25:
-            ASM("csrr %0, mhpmevent25" : : "r"(reg));
-            break;
-        case 26:
-            ASM("csrr %0, mhpmevent26" : : "r"(reg));
-            break;
-        case 27:
-            ASM("csrr %0, mhpmevent27" : : "r"(reg));
-            break;
-        case 28:
-            ASM("csrr %0, mhpmevent28" : : "r"(reg));
-            break;
-        case 29:
-            ASM("csrr %0, mhpmevent29" : : "r"(reg));
-            break;
-        case 30:
-            ASM("csrr %0, mhpmevent30" : : "r"(reg));
-            break;
-        case 31:
-            ASM("csrr %0, mhpmevent31" : : "r"(reg));
-            break;
-        }
+    static Reg64 minstret() {
+        Reg64 reg = 0;
+        
+        ASM(R"(
+            csrr    %0, minstret
+        )": "=r"(reg));
 
         return reg;
     }
 
-    static void mhpmevent(Reg reg, Channel channel) {
-        switch (channel)
-        {
-        case 3:
-            ASM("csrw mhpmevent3,  %0" : : "r"(reg));
-            break;
-        case 4:
-            ASM("csrw mhpmevent4,  %0" : : "r"(reg));
-            break;
-        case 5:
-            ASM("csrw mhpmevent5,  %0" : : "r"(reg));
-            break;
-        case 6:
-            ASM("csrw mhpmevent6,  %0" : : "r"(reg));
-            break;
-        case 7:
-            ASM("csrw mhpmevent7,  %0" : : "r"(reg));
-            break;
-        case 8:
-            ASM("csrw mhpmevent8,  %0" : : "r"(reg));
-            break;
-        case 9:
-            ASM("csrw mhpmevent9,  %0" : : "r"(reg));
-            break;
-        case 10:
-            ASM("csrw mhpmevent10, %0" : : "r"(reg));
-            break;
-        case 11:
-            ASM("csrw mhpmevent11, %0" : : "r"(reg));
-            break;
-        case 12:
-            ASM("csrw mhpmevent12, %0" : : "r"(reg));
-            break;
-        case 13:
-            ASM("csrw mhpmevent13, %0" : : "r"(reg));
-            break;
-        case 14:
-            ASM("csrw mhpmevent14, %0" : : "r"(reg));
-            break;
-        case 15:
-            ASM("csrw mhpmevent15, %0" : : "r"(reg));
-            break;
-        case 16:
-            ASM("csrw mhpmevent16, %0" : : "r"(reg));
-            break;
-        case 17:
-            ASM("csrw mhpmevent17, %0" : : "r"(reg));
-            break;
-        case 18:
-            ASM("csrw mhpmevent18, %0" : : "r"(reg));
-            break;
-        case 19:
-            ASM("csrw mhpmevent19, %0" : : "r"(reg));
-            break;
-        case 20:
-            ASM("csrw mhpmevent20, %0" : : "r"(reg));
-            break;
-        case 21:
-            ASM("csrw mhpmevent21, %0" : : "r"(reg));
-            break;
-        case 22:
-            ASM("csrw mhpmevent22, %0" : : "r"(reg));
-            break;
-        case 23:
-            ASM("csrw mhpmevent23, %0" : : "r"(reg));
-            break;
-        case 24:
-            ASM("csrw mhpmevent24, %0" : : "r"(reg));
-            break;
-        case 25:
-            ASM("csrw mhpmevent25, %0" : : "r"(reg));
-            break;
-        case 26:
-            ASM("csrw mhpmevent26, %0" : : "r"(reg));
-            break;
-        case 27:
-            ASM("csrw mhpmevent27, %0" : : "r"(reg));
-            break;
-        case 28:
-            ASM("csrw mhpmevent28, %0" : : "r"(reg));
-            break;
-        case 29:
-            ASM("csrw mhpmevent29, %0" : : "r"(reg));
-            break;
-        case 30:
-            ASM("csrw mhpmevent30, %0" : : "r"(reg));
-            break;
-        case 31:
-            ASM("csrw mhpmevent31, %0" : : "r"(reg));
-            break;
+    static Reg64 mcycle() {
+        Reg64 reg = 0;
+        
+        ASM(R"(
+            csrr    %0, mcycle
+        )": "=r"(reg));
+
+        return reg;
+    }
+    
+    static void init();
+
+private:
+
+    static void mhpmevent(Channel channel, Reg64 value) {
+        // HPM includes 29 channels mhpmevent3–mhpmevent31
+
+        switch (channel) {
+            case MHPMEVENT3:
+                ASM(R"(csrw    mhpmevent3, %0)": : "r"(value));
+                break;
+            case MHPMEVENT4:
+                ASM(R"(csrw    mhpmevent4, %0)": : "r"(value));
+                break;
+            case MHPMEVENT5:
+                ASM(R"(csrw    mhpmevent5, %0)": : "r"(value));
+                break;
+            case MHPMEVENT6:
+                ASM(R"(csrw    mhpmevent6, %0)": : "r"(value));
+                break;
+            case MHPMEVENT7:
+                ASM(R"(csrw    mhpmevent7, %0)": : "r"(value));
+                break;
+            case MHPMEVENT8:
+                ASM(R"(csrw    mhpmevent8, %0)": : "r"(value));
+                break;
+            case MHPMEVENT9:
+                ASM(R"(csrw    mhpmevent9, %0)": : "r"(value));
+                break;
+            case MHPMEVENT10:
+                ASM(R"(csrw    mhpmevent10, %0)": : "r"(value));
+                break;
+            case MHPMEVENT11:
+                ASM(R"(csrw    mhpmevent11, %0)": : "r"(value));
+                break;
+            case MHPMEVENT12:
+                ASM(R"(csrw    mhpmevent12, %0)": : "r"(value));
+                break;
+            case MHPMEVENT13:
+                ASM(R"(csrw    mhpmevent13, %0)": : "r"(value));
+                break;
+            case MHPMEVENT14:
+                ASM(R"(csrw    mhpmevent14, %0)": : "r"(value));
+                break;
+            case MHPMEVENT15:
+                ASM(R"(csrw    mhpmevent15, %0)": : "r"(value));
+                break;
+            case MHPMEVENT16:
+                ASM(R"(csrw    mhpmevent16, %0)": : "r"(value));
+                break;
+            case MHPMEVENT17:
+                ASM(R"(csrw    mhpmevent17, %0)": : "r"(value));
+                break;
+            case MHPMEVENT18:
+                ASM(R"(csrw    mhpmevent18, %0)": : "r"(value));
+                break;
+            case MHPMEVENT19:
+                ASM(R"(csrw    mhpmevent19, %0)": : "r"(value));
+                break;
+            case MHPMEVENT20:
+                ASM(R"(csrw    mhpmevent20, %0)": : "r"(value));
+                break;
+            case MHPMEVENT21:
+                ASM(R"(csrw    mhpmevent21, %0)": : "r"(value));
+                break;
+            case MHPMEVENT22:
+                ASM(R"(csrw    mhpmevent22, %0)": : "r"(value));
+                break;
+            case MHPMEVENT23:
+                ASM(R"(csrw    mhpmevent23, %0)": : "r"(value));
+                break;
+            case MHPMEVENT24:
+                ASM(R"(csrw    mhpmevent24, %0)": : "r"(value));
+                break;
+            case MHPMEVENT25:
+                ASM(R"(csrw    mhpmevent25, %0)": : "r"(value));
+                break;
+            case MHPMEVENT26:
+                ASM(R"(csrw    mhpmevent26, %0)": : "r"(value));
+                break;
+            case MHPMEVENT27:
+                ASM(R"(csrw    mhpmevent27, %0)": : "r"(value));
+                break;
+            case MHPMEVENT28:
+                ASM(R"(csrw    mhpmevent28, %0)": : "r"(value));
+                break;
+            case MHPMEVENT29:
+                ASM(R"(csrw    mhpmevent29, %0)": : "r"(value));
+                break;
+            case MHPMEVENT30:
+                ASM(R"(csrw    mhpmevent30, %0)": : "r"(value));
+                break;
+            case MHPMEVENT31:
+                ASM(R"(csrw    mhpmevent31, %0)": : "r"(value));
+                break;
         }
     }
 
@@ -563,15 +589,17 @@ private:
         default:
             db<PMU>(WRN) << "PMU::mhpmcounter(c=" << counter << "): counter is read-only!" << endl;
         }
+
+        return value;
     }
 
-protected:
-    static const Event _events[EVENTS];
+private:
+    static Event _monitored_events[CHANNELS]; 
+    static const Event _events[EVENTS]; 
+
 };
 
-#ifndef __rv64_pmu_common_only__
-
-class PMU: public RV64_PMU
+class PMU: private RV64_PMU
 {
     friend class CPU;
 
@@ -596,12 +624,14 @@ public:
     using Engine::start;
     using Engine::stop;
     using Engine::reset;
+    
+    using Engine::mcycle;
+    using Engine::minstret;
 
 private:
     static void init() { Engine::init(); }
 };
 
-#endif
 
 __END_SYS
 

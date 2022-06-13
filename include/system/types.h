@@ -9,6 +9,7 @@ __BEGIN_API
 
 // Memory allocators
 enum System_Allocator { SYSTEM };
+enum Flash_Allocator { FLASH };
 enum Scratchpad_Allocator { SCRATCHPAD };
 enum Color {
     COLOR_0,  COLOR_1,  COLOR_2,  COLOR_3,  COLOR_4,  COLOR_5,  COLOR_6,  COLOR_7,
@@ -49,6 +50,14 @@ void * operator new[](size_t, const EPOS::Scratchpad_Allocator &);
 
 void * operator new(size_t, const EPOS::Color &);
 void * operator new[](size_t, const EPOS::Color &);
+
+// Flash
+
+void * malloc(size_t, const EPOS::Flash_Allocator &);
+void free(void *, const EPOS::Flash_Allocator &);
+
+void * operator new(size_t, const EPOS::Flash_Allocator &);
+void * operator new[](size_t, const EPOS::Flash_Allocator &);
 
 // Utilities
 __BEGIN_UTIL
