@@ -142,12 +142,15 @@ using namespace EPOS::S;
 
 void _entry() // machine mode
 {
-    
-    if (CPU::id() != 0)
-        CPU::halt();
+    // removed halt to use for multicore
+    // if (CPU::id() != 0)
+    //     CPU::halt();
 
     CPU::mstatusc(CPU::MIE);                            // disable interrupts (they will be reenabled at Init_End)
-    CPU::mies(CPU::MSI);                                // enable interrupts at CLINT so IPI and timer can be triggered
+    
+    CPU::mies(CPU::MSI);                                // enable interrupts at CLINT so IPI
+    // setting bit mie.MTIE on so timer interrupts can occur
+    CPU::mies(CPU::MTI);                                // enable interrupts at CLINT timer can be triggered
     CLINT::mtvec(CLINT::DIRECT, _int_entry);            // setup a preliminary machine mode interrupt handler pointing it to _int_entry
 
     CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE * (CPU::id() + 1) - sizeof(long)); // set this hart stack (the first stack is reserved for _int_m2s)
