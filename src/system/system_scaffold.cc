@@ -17,26 +17,59 @@ OStream kout;
 OStream kerr;
 
 // System class attributes
-System_Info * System::_si = (Memory_Map::SYS_INFO != Memory_Map::NOT_USED) ? reinterpret_cast<System_Info *>(Memory_Map::SYS_INFO) : reinterpret_cast<System_Info *>(&__boot_time_system_info);
+System_Info *System::_si = (Memory_Map::SYS_INFO != Memory_Map::NOT_USED) ? reinterpret_cast<System_Info *>(Memory_Map::SYS_INFO) : reinterpret_cast<System_Info *>(&__boot_time_system_info);
 char System::_preheap[];
-Segment * System::_heap_segment;
-Heap * System::_heap;
+Segment *System::_heap_segment;
+Heap *System::_heap;
 
 __END_SYS
 
 // Bindings
-extern "C" {
-    __USING_SYS;
+extern "C"
+{
+  __USING_SYS;
 
-    // Libc legacy
-    void _panic() { Machine::panic(); }
-    void _exit(int s) { Thread::exit(s); for(;;); }
-    void __exit() { Thread::exit(CPU::fr()); }  // must be handled by the Page Fault handler for user-level tasks
-    void __cxa_pure_virtual() { db<void>(ERR) << "Pure Virtual method called!" << endl; }
+  // Libc legacy
+  void _panic() { Machine::panic(); }
+  void _exit(int s)
+  {
+    Thread::exit(s);
+    for (;;)
+      ;
+  }
+  void __exit() { Thread::exit(CPU::fr()); } // must be handled by the Page Fault handler for user-level tasks
+  void __cxa_pure_virtual() { db<void>(ERR) << "Pure Virtual method called!" << endl; }
 
-    // Utility-related methods that differ from kernel and user space.
-    // OStream
-    void _print(const char * s) { Display::puts(s); }
-    void _print_preamble() {}
-    void _print_trailler(bool error) { if(error) _panic(); }
+  // Utility-related methods that differ from kernel and user space.
+  // OStream
+  void _print(const char *s) { Display::puts(s); }
+  void _print_preamble()
+  {
+    // prevents output being messy
+    static char tag[] = "<0>: ";
+
+    int current_CPU = CPU::id();
+    int last_CPU = CPU::cas(_print_lock, -1, current_CPU);
+    for (int i = 0, owner = last_CPU; (Traits<System>::hysterically_debugged || (i < 10)) && (owner != current_CPU); i++, owner = CPU::cas(_print_lock, -1, current_CPU))
+      ;
+    if (last_CPU != current_CPU)
+    {
+      tag[1] = '0' + CPU::id();
+      _print(tag);
+    }
+  }
+  void _print_trailler(bool error)
+  {
+    static char tag[] = " :<0>";
+
+    if (_print_lock != -1)
+    {
+      tag[3] = '0' + CPU::id();
+      _print(tag);
+
+      _print_lock = -1;
+    }
+    if (error)
+      _panic();
+  }
 }

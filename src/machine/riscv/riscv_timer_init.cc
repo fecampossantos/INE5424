@@ -8,14 +8,18 @@ __BEGIN_SYS
 
 void Timer::init()
 {
-    db<Init, Timer>(TRC) << "Timer::init()" << endl;
+  db<Init, Timer>(TRC) << "Timer::init()" << endl;
 
-    assert(CPU::int_disabled());
+  assert(CPU::int_disabled());
 
+  // IC::int_vector(IC::INT_SYS_TIMER, int_handler);
+  if (CPU::id() == 0)
+  {
     IC::int_vector(IC::INT_SYS_TIMER, int_handler);
+  }
 
-    reset();
-    IC::enable(IC::INT_SYS_TIMER);
+  reset();
+  IC::enable(IC::INT_SYS_TIMER);
 }
 
 __END_SYS

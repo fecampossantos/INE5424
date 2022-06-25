@@ -216,7 +216,7 @@ public:
 
     static unsigned int id() { return mhartid(); }
 
-    static unsigned int cores() { return 1; }
+    static unsigned int cores() { return Traits<Machine>::CPUS; }
 
     using CPU_Common::clock;
     using CPU_Common::min_clock;

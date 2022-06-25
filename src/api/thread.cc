@@ -359,7 +359,8 @@ int Thread::idle()
 {
     db<Thread>(TRC) << "Thread::idle(this=" << running() << ")" << endl;
 
-    while(_thread_count > 1) { // someone else besides idle
+    // while(_thread_count > 1) { // someone else besides idle
+    while(_thread_count > CPU::cores()) {
         if(Traits<Thread>::trace_idle)
             db<Thread>(TRC) << "Thread::idle(this=" << running() << ")" << endl;
 
@@ -369,12 +370,23 @@ int Thread::idle()
 
     CPU::int_disable();
     db<Thread>(WRN) << "The last thread has exited!" << endl;
-    if(reboot) {
-        db<Thread>(WRN) << "Rebooting the machine ..." << endl;
-        Machine::reboot();
-    } else {
-        db<Thread>(WRN) << "Halting the machine ..." << endl;
-        CPU::halt();
+    // if(reboot) {
+    //     db<Thread>(WRN) << "Rebooting the machine ..." << endl;
+    //     Machine::reboot();
+    // } else {
+    //     db<Thread>(WRN) << "Halting the machine ..." << endl;
+    //     CPU::halt();
+    // }
+
+    if (CPU::id() == 0) {
+        db<Thread>(WRN) << "The last thread has exited!" << endl;
+        if(reboot) {
+            db<Thread>(WRN) << "Rebooting the machine ..." << endl;
+            Machine::reboot();
+        } else {
+            db<Thread>(WRN) << "Halting the machine ..." << endl;
+            CPU::halt();
+        }
     }
 
     // Some machines will need a little time to actually reboot

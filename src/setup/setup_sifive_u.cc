@@ -67,8 +67,12 @@ Setup::Setup()
   db<Setup>(TRC) << "Setup(si=" << reinterpret_cast<void *>(si) << ",sp=" << CPU::sp() << ")" << endl;
   db<Setup>(INF) << "Setup:si=" << *si << endl;
 
-  // Print basic facts about this EPOS instance
-  say_hi();
+  // Print basic facts about this EPOS instance only for CPU 0
+  // say_hi();
+  if (CPU::id() == 0)
+  {
+    say_hi();
+  }
 
   // SETUP ends here, so let's transfer control to the next stage (INIT or APP)
   call_next();
@@ -164,7 +168,8 @@ void _entry() // machine mode
     CPU::mies(CPU::MTI);                     // enable interrupts at CLINT timer can be triggered
     CLINT::mtvec(CLINT::DIRECT, _int_entry); // setup a preliminary machine mode interrupt handler pointing it to _int_entry
 
-    CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE * (CPU::id() + 1) - sizeof(long)); // set this hart stack (the first stack is reserved for _int_m2s)
+    // CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE * (CPU::id() + 1) - sizeof(long)); // set this hart stack (the first stack is reserved for _int_m2s)
+    CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE * (CPU::mhartid() + 1) - sizeof(long));
     Machine::clear_bss();
 
     CPU::mstatus(CPU::MPP_M | CPU::MPIE); // stay in machine mode and reenable interrupts at mret
