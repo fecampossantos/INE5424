@@ -7,7 +7,8 @@
 
 using namespace EPOS;
 
-const int iterations = 128;
+const int ALARM_DELAY = 50000;
+const int ITERATIONS = 1;
 
 OStream cout;
 
@@ -19,11 +20,11 @@ Semaphore full(0);
 int consumer()
 {
     int out = 0;
-    for(int i = 0; i < iterations; i++) {
+    for(int i = 0; i < ITERATIONS; i++) {
         full.p();
-        cout << "C<-" << buffer[out] << " ";
+        cout << "C <- " << buffer[out] << endl;
         out = (out + 1) % BUF_SIZE;
-        Alarm::delay(100000);
+        Alarm::delay(ALARM_DELAY);
         empty.v();
     }
 
@@ -38,11 +39,11 @@ int main()
 
     // producer
     int in = 0;
-    for(int i = 0; i < iterations; i++) {
+    for(int i = 0; i < ITERATIONS; i++) {
         empty.p();
-        Alarm::delay(100000);
+        Alarm::delay(ALARM_DELAY);
         buffer[in] = 'a' + in;
-        cout << "P->" << buffer[in] << " ";
+        cout << "P -> " << buffer[in] << endl;
         in = (in + 1) % BUF_SIZE;
         full.v();
     }

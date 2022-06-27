@@ -25,6 +25,8 @@ class Thread
 
 protected:
     static const bool preemptive = Traits<Thread>::Criterion::preemptive;
+    static const bool dynamic = Traits<Thread>::Criterion::dynamic;
+    static const bool iobound = Traits<Thread>::Criterion::iobound;
     static const bool reboot = Traits<System>::reboot;
 
     static const unsigned int QUANTUM = Traits<Thread>::QUANTUM;

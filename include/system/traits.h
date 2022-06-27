@@ -100,6 +100,7 @@ class Periodic_Thread;
 class RT_Thread;
 class Task;
 class Priority;
+class TimePreemptive;
 class FCFS;
 class RR;
 class RM;

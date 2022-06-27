@@ -239,8 +239,8 @@ public:
     static T tsl(volatile T & lock) {
         register T old;
         register T one = 1;
-        ASM("1: lr.d    %0, (%1)        \n"
-            "   sc.d    t3, %2, (%1)    \n"
+        ASM("1: lr.w    %0, (%1)        \n"
+            "   sc.w    t3, %2, (%1)    \n"
             "   bnez    t3, 1b          \n" : "=&r"(old) : "r"(&lock), "r"(one) : "t3", "cc", "memory");
         return old;
     }
@@ -248,9 +248,9 @@ public:
     template<typename T>
     static T finc(volatile T & value) {
         register T old;
-        ASM("1: lr.d    %0, (%1)        \n"
+        ASM("1: lr.w    %0, (%1)        \n"
             "   addi    %0, %0, 1       \n"
-            "   sc.d    t3, %0, (%1)    \n"
+            "   sc.w    t3, %0, (%1)    \n"
             "   bnez    t3, 1b          \n" : "=&r"(old) : "r"(&value) : "t3", "cc", "memory");
         return old - 1;
     }
@@ -258,9 +258,9 @@ public:
     template<typename T>
     static T fdec(volatile T & value) {
         register T old;
-        ASM("1: lr.d    %0, (%1)        \n"
+        ASM("1: lr.w    %0, (%1)        \n"
             "   addi    %0, %0, -1      \n"
-            "   sc.d    t3, %0, (%1)    \n"
+            "   sc.w    t3, %0, (%1)    \n"
             "   bnez    t3, 1b          \n" : "=&r"(old) : "r"(&value) : "t3", "cc", "memory");
         return old + 1;
     }
@@ -268,9 +268,9 @@ public:
     template <typename T>
     static T cas(volatile T & value, T compare, T replacement) {
         register T old;
-        ASM("1: lr.d    %0, (%1)        \n"
+        ASM("1: lr.w    %0, (%1)        \n"
             "   bne     %0, %2, 2f      \n"
-            "   sc.d    t3, %3, (%1)    \n"
+            "   sc.w    t3, %3, (%1)    \n"
             "   bnez    t3, 1b          \n"
             "2:                         \n" : "=&r"(old) : "r"(&value), "r"(compare), "r"(replacement) : "t3", "cc", "memory");
         return old;
@@ -334,7 +334,7 @@ public:
     static void mint_enable()  { ASM("csrsi mstatus, %0" : : "i"(MIE) : "cc"); }
     static void mint_disable() { ASM("csrci mstatus, %0" : : "i"(MIE) : "cc"); }
 
-    static Reg mhartid() { Reg r; ASM("csrr %0, mhartid" : "=r"(r) : : "memory", "cc"); return r & 0x3; }
+    static Reg mhartid() { Reg r; ASM("csrr %0, mhartid" : "=r"(r) : : "memory", "cc"); return r; }
 
     static void mscratch(Reg r)   { ASM("csrw mscratch, %0" : : "r"(r) : "cc"); }
     static Reg  mscratch() { Reg r; ASM("csrr %0, mscratch" :  "=r"(r) : : ); return r; }

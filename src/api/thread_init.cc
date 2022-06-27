@@ -13,22 +13,23 @@ void Thread::init()
 {
     db<Init, Thread>(TRC) << "Thread::init()" << endl;
 
+    CPU::smp_barrier();
+
     Criterion::init();
 
-    typedef int (Main)();
-
-    // If EPOS is a library, then adjust the application entry point to __epos_app_entry, which will directly call main().
-    // In this case, _init will have already been called, before Init_Application to construct MAIN's global objects.
-    Main * main = reinterpret_cast<Main *>(__epos_app_entry);
-
-    Thread::State idle_state = Thread::RUNNING;
     if (CPU::id() == 0) {
-        idle_state = Thread::READY;
+        typedef int (Main)();
+
+        // If EPOS is a library, then adjust the application entry point to __epos_app_entry, which will directly call main().
+        // In this case, _init will have already been called, before Init_Application to construct MAIN's global objects.
+        Main * main = reinterpret_cast<Main *>(__epos_app_entry);
         new (SYSTEM) Thread(Thread::Configuration(Thread::RUNNING, Thread::MAIN), main);
+        new (SYSTEM) Thread(Thread::Configuration(Thread::READY, Thread::IDLE), &Thread::idle);
+    } else {
+        new (SYSTEM) Thread(Thread::Configuration(Thread::RUNNING, Thread::IDLE), &Thread::idle);
     }
 
-    // Idle thread creation does not cause rescheduling (see Thread::constructor_epilogue)
-    new (SYSTEM) Thread(Thread::Configuration(idle_state, Thread::IDLE), &Thread::idle);
+    CPU::smp_barrier();
 
     // The installation of the scheduler timer handler does not need to be done after the
     // creation of threads, since the constructor won't call reschedule() which won't call
@@ -43,6 +44,7 @@ void Thread::init()
     CPU::int_disable();
 
     // Transition from CPU-based locking to thread-based locking
+    CPU::smp_barrier();
     This_Thread::not_booting();
 }
 

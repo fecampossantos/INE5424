@@ -186,6 +186,9 @@ void _entry() // machine mode
     CPU::mepc(CPU::Reg(&_setup)); // entry = _setup
     CPU::mret();                  // enter supervisor mode at setup (mepc) with interrupts enabled (mstatus.mpie = true)
   }
+
+if (CPU::id() == 0)
+        Machine::clear_bss();
 }
 
 void _setup() // supervisor mode

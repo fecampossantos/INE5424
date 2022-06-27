@@ -26,7 +26,7 @@ public:
 
     // Physical Memory
     static const unsigned int RAM_BASE          = 0x80000000;                           // 2 GB
-    static const unsigned int RAM_TOP           = 0x87ffff07;                           // 2 GB + 128 MB (max 1536 MB of RAM => RAM + MIO < 2 G)
+    static const unsigned int RAM_TOP           = 0x87ffffff;                           // 2 GB + 128 MB (max 1536 MB of RAM => RAM + MIO < 2 G)
     static const unsigned int MIO_BASE          = 0x00000000;
     static const unsigned int MIO_TOP           = 0x1fffffff;                           // 512 MB (max 512 MB of MIO => RAM + MIO < 2 G)
 
@@ -68,7 +68,7 @@ template <> struct Traits<Timer>: public Traits<Machine_Common>
     // Meaningful values for the timer frequency range from 100 to 10000 Hz. The
     // choice must respect the scheduler time-slice, i. e., it must be higher
     // than the scheduler invocation frequency.
-    static const int FREQUENCY = 10; // Hz
+    static const int FREQUENCY = 1000; // Hz
 };
 
 template <> struct Traits<UART>: public Traits<Machine_Common>
@@ -98,7 +98,7 @@ template<> struct Traits<Serial_Display>: public Traits<Machine_Common>
 
 template<> struct Traits<Scratchpad>: public Traits<Machine_Common>
 {
-    static const bool enabled = true;
+    static const bool enabled = false;
 };
 
 __END_SYS

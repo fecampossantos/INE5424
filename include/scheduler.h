@@ -59,6 +59,7 @@ public:
     static const bool task_wide = false;
     static const bool cpu_wide = false;
     static const bool system_wide = false;
+    static const bool iobound = false;
     static const unsigned int QUEUES = 1;
 
     // Runtime Statistics (for policies that don't use any; that´s why its a union)
@@ -145,6 +146,32 @@ public:
     FCFS(int p = NORMAL, Tn & ... an);
 };
 
+class TimePreemptive: public Priority
+{
+public:
+    static const unsigned int HEADS = Traits<Machine>::CPUS;
+    static const bool timed = true;
+    static const bool dynamic = true;
+    static const bool preemptive = false;
+    static const bool iobound = true;
+
+public:
+    template <typename ... Tn>
+    TimePreemptive(int p = NORMAL, Tn & ... an) : Priority(p) {}
+    bool award();
+
+    static unsigned int current_head() { return CPU::id(); }
+};
+
 __END_SYS
+
+__BEGIN_UTIL
+
+// Scheduling Queues
+template<typename T>
+class Scheduling_Queue<T, TimePreemptive>:
+public Multihead_Scheduling_List<T> {};
+
+__END_UTIL
 
 #endif

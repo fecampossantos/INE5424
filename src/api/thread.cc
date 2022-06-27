@@ -258,6 +258,9 @@ void Thread::sleep(Queue * q)
 
     Thread * next = _scheduler.chosen();
 
+    if (dynamic && iobound) {
+        prev->_link.promote(1);
+    }
     dispatch(prev, next);
 }
 
@@ -337,7 +340,7 @@ void Thread::dispatch(Thread * prev, Thread * next, bool charge)
         next->_state = RUNNING;
 
         db<Thread>(TRC) << "Thread::dispatch(prev=" << prev << ",next=" << next << ")" << endl;
-        if(Traits<Thread>::debugged && Traits<Debug>::trace) {
+        if(Traits<Thread>::debugged && Traits<Debug>::info) {
             CPU::Context tmp;
             tmp.save();
             db<Thread>(INF) << "Thread::dispatch:prev={" << prev << ",ctx=" << tmp << "}" << endl;
