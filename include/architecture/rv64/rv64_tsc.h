@@ -19,6 +19,7 @@ private:
     static const unsigned int ACCURACY = 40000; // this is actually unknown at the moment
 
     // Registers offsets from CLINT_BASE
+    
     static const unsigned int MTIME = 0xbff8;
 
     // Registers offsets from CLINT_BASE
@@ -26,6 +27,7 @@ private:
     //     MTIME  = 0xbff8, // Counter (lower 32 bits)
     //     MTIMEH = 0xbffc  // Counter (upper 32 bits)
     // };
+
 
 
 public:
@@ -44,7 +46,7 @@ public:
 private:
     static void init() {}
 
-    static volatile CPU::Reg32 & reg(unsigned int o) { return reinterpret_cast<volatile CPU::Reg32 *>(Memory_Map::CLINT_BASE)[o / sizeof(CPU::Reg64)]; }
+    static volatile CPU::Reg64 & reg(unsigned int o) { return reinterpret_cast<volatile CPU::Reg64 *>(Memory_Map::CLINT_BASE)[o / sizeof(CPU::Reg64)]; }
 };
 
 __END_SYS

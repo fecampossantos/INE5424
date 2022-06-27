@@ -258,7 +258,7 @@ void Thread::sleep(Queue * q)
 
     Thread * next = _scheduler.chosen();
 
-    dispatch(prev, next);
+    dispatch(prev, next, true, true);
 }
 
 
@@ -322,13 +322,17 @@ void Thread::time_slicer(IC::Interrupt_Id i)
 }
 
 
-void Thread::dispatch(Thread * prev, Thread * next, bool charge)
+void Thread::dispatch(Thread * prev, Thread * next, bool charge, bool award)
 {
     // "next" is not in the scheduler's queue anymore. It's already "chosen"
 
     if(charge) {
         if(Criterion::timed)
             _timer->restart();
+    }
+
+    if (award) {
+        prev->criterion().update();
     }
 
     if(prev != next) {

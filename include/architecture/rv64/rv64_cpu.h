@@ -55,6 +55,14 @@ public:
         TVM             = 1 << 20,      // Trap Virtual Memory makes SATP inaccessible in supervisor mode
         TW              = 1 << 21,      // Timeout Wait for WFI outside machine mode
         TSR             = 1 << 22,      // Trap SRet in supervisor mode
+        SXL             = 3UL << 32,      // XLEN for S-mode
+        SXL_32          = 1UL << 32,      // XLEN for S-mode 32 bits
+        SXL_64          = 2UL << 32,      // XLEN for S-mode 64 bits
+        SXL_128         = 3UL << 32,      // XLEN for S-mode 128 bits
+        UXL             = 3UL << 34,      // XLEN for S-mode
+        UXL_32          = 1UL << 34,      // XLEN for U-mode 32 bits
+        UXL_64          = 2UL << 34,      // XLEN for U-mode 64 bits
+        UXL_128         = 3UL << 34,      // XLEN for U-mode 128 bits
         SD              = 1UL << 63,      // Status Dirty = (FS | XS)
     };
 

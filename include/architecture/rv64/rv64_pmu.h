@@ -4,6 +4,7 @@
 #define __rv64_pmu_h
 
 #include <architecture/cpu.h>
+#include <architecture/rv64/rv64_tsc.h>
 #define __pmu_common_only__
 #include <architecture/pmu.h>
 #undef __pmu_common_only__
