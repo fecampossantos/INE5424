@@ -1,6 +1,6 @@
 // EPOS Scheduler Test Program
 
-#include <machine/display.h>
+#include <machine.h>
 #include <time.h>
 #include <synchronizer.h>
 #include <process.h>
@@ -17,6 +17,9 @@ Semaphore * chopstick[5];
 OStream cout;
 
 int philosopher(int n, int l, int c);
+void think(unsigned long long n);
+void eat(unsigned long long n);
+unsigned long long busy_wait(unsigned long long n);
 
 int main()
 {
@@ -28,11 +31,11 @@ int main()
     for(int i = 0; i < 5; i++)
         chopstick[i] = new Semaphore;
 
-    phil[0] = new Thread(&philosopher, 0,  5, 32);
+    phil[0] = new Thread(&philosopher, 0,  5, 30);
     phil[1] = new Thread(&philosopher, 1, 10, 44);
     phil[2] = new Thread(&philosopher, 2, 16, 39);
-    phil[3] = new Thread(&philosopher, 3, 16, 24);
-    phil[4] = new Thread(&philosopher, 4, 10, 20);
+    phil[3] = new Thread(&philosopher, 3, 16, 21);
+    phil[4] = new Thread(&philosopher, 4, 10, 17);
 
     cout << "Philosophers are alive and hungry!" << endl;
 
@@ -78,14 +81,14 @@ int philosopher(int n, int l, int c)
 
         table.lock();
         Display::position(l, c);
-        cout << "thinking";
+        cout << "thinking[" << CPU::id() << "]";
         table.unlock();
 
-        Delay thinking(1000000);
+        think(1000000);
 
         table.lock();
         Display::position(l, c);
-        cout << " hungry ";
+        cout << "  hungry[" << CPU::id() << "]";
         table.unlock();
 
         chopstick[first]->p();   // get first chopstick
@@ -93,14 +96,14 @@ int philosopher(int n, int l, int c)
 
         table.lock();
         Display::position(l, c);
-        cout << " eating ";
+        cout << " eating[" << CPU::id() << "] ";
         table.unlock();
 
-        Delay eating(500000);
+        eat(500000);
 
         table.lock();
         Display::position(l, c);
-        cout << "  sate  ";
+        cout << "    sate[" << CPU::id() << "]";
         table.unlock();
 
         chopstick[first]->v();   // release first chopstick
@@ -109,8 +112,24 @@ int philosopher(int n, int l, int c)
 
     table.lock();
     Display::position(l, c);
-    cout << "  done  ";
+    cout << "  done[" << CPU::id() << "]  ";
     table.unlock();
 
     return iterations;
+}
+
+void eat(unsigned long long n) {
+    busy_wait(n);
+}
+
+void think(unsigned long long n) {
+    busy_wait(n);
+}
+
+unsigned long long busy_wait(unsigned long long n)
+{
+    volatile unsigned long long v;
+    for(unsigned long long int j = 0; j < 20 * n; j++)
+        v &= 2 ^ j;
+    return v;
 }

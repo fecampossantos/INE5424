@@ -40,6 +40,10 @@ void IC::dispatch()
     if((id != INT_SYS_TIMER) || Traits<IC>::hysterically_debugged)
         db<IC>(TRC) << "IC::dispatch(i=" << id << ")" << endl;
 
+    // IPIs must be acknowledged before calling the ISR, because in RISC-V, MIP set bits will keep on triggering interrupts until they are cleared
+    if(id == INT_RESCHEDULER)
+        IC::ipi_eoi(id);
+
     // MIP.MTI is a direct logic on (MTIME == MTIMECMP) and reseting the Timer seems to be the only way to clear it
     if(id == INT_SYS_TIMER)
         Timer::reset();
@@ -116,7 +120,7 @@ void IC::exception(Interrupt_Id id)
     db<IC, System>(WRN) << endl;
 
     if(Traits<Build>::hysterically_debugged)
-        Machine::panic();
+        db<IC, System>(ERR) << "Exception stoped execution due to hysterically debuggeing!" << endl;
 
     CPU::fr(sizeof(void *)); // tell CPU::Context::pop(true) to perform PC = PC + [4|8] on return
 }
