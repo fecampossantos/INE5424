@@ -68,7 +68,8 @@ Setup::Setup()
     db<Setup>(INF) << "Setup:si=" << *si << endl;
 
     // Print basic facts about this EPOS instance
-    say_hi();
+    if(CPU::id() == 0)
+        say_hi();
 
     // SETUP ends here, so let's transfer control to the next stage (INIT or APP)
     call_next();
@@ -79,8 +80,6 @@ void Setup::say_hi()
 {
     db<Setup>(TRC) << "Setup::say_hi()" << endl;
     db<Setup>(INF) << "System_Info=" << *si << endl;
-
-    kout << endl;
 
     if(si->bm.application_offset == -1U) {
         db<Setup>(ERR) << "No APPLICATION in boot image, you don't need EPOS!" << endl;
@@ -111,15 +110,13 @@ void Setup::say_hi()
     kout << endl;
 }
 
+
 void Setup::call_next()
 {
-    // Check for next stage and obtain the entry point
-    Log_Addr pc = &_start;
-
     db<Setup>(INF) << "SETUP ends here!" << endl;
 
     // Call the next stage
-    static_cast<void (*)()>(pc)();
+    static_cast<void (*)()>(_start)();
 
     // SETUP is now part of the free memory and this point should never be reached, but, just in case ... :-)
     db<Setup>(ERR) << "OS failed to init!" << endl;
@@ -131,16 +128,14 @@ using namespace EPOS::S;
 
 void _entry() // machine mode
 {
-    if(CPU::mhartid() != 0)                             // SiFive-U requires 2 cores, so we disable core 1 here
-        CPU::halt();
-
     CPU::mstatusc(CPU::MIE);                            // disable interrupts (they will be reenabled at Init_End)
-    CPU::mies(CPU::MSI);                                // enable interrupts at CLINT so IPI and timer can be triggered
+    CPU::mies(CPU::MSI);                                // enable interrupts generation by CLINT
     CLINT::mtvec(CLINT::DIRECT, _int_entry);            // setup a preliminary machine mode interrupt handler pointing it to _int_entry
 
-    CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE - sizeof(long)); // set this hart stack
+    CPU::sp(Memory_Map::BOOT_STACK + Traits<Machine>::STACK_SIZE * (CPU::id() + 1) - sizeof(long)); // set the stack pointer, thus creating a stack for SETUP
 
-    Machine::clear_bss();
+    if(CPU::id() == 0)
+        Machine::clear_bss();
 
     CPU::mstatus(CPU::MPP_M);                           // stay in machine mode at mret
 
@@ -150,5 +145,8 @@ void _entry() // machine mode
 
 void _setup() // supervisor mode
 {
+    kerr  << endl;
+    kout  << endl;
+
     Setup setup;
 }

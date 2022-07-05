@@ -93,7 +93,8 @@ public:
     using IC_Common::Interrupt_Handler;
 
     enum {
-        INT_SYS_TIMER = EXCS + IRQ_MAC_TIMER
+        INT_SYS_TIMER   = EXCS + IRQ_MAC_TIMER,
+        INT_RESCHEDULER = EXCS + IRQ_MAC_SOFT,  // an IPI is mapped to the machine with mcause set to IRQ_MAC_SOFT
     };
 
 public:
@@ -151,6 +152,8 @@ public:
         assert(i < INTS);
         reg(MSIP + cpu * MSIP_CORE_OFFSET) = 1;
     }
+
+    static void ipi_eoi(Interrupt_Id i) { reg(MSIP + CPU::id() * MSIP_CORE_OFFSET) = 0; }
 
 private:
     static void dispatch();
