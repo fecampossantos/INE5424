@@ -8,7 +8,6 @@
 #include <utility/queue.h>
 #include <utility/handler.h>
 #include <scheduler.h>
-// #include <memory.h>
 
 extern "C"
 {
@@ -28,7 +27,6 @@ class Thread
   friend class Alarm;               // for lock()
   friend class System;              // for init()
   friend class IC;                  // for link() for priority ceiling
-  // friend class Clerk<System>;         // for statistics
   friend void ::_lock_heap();   // for lock()
   friend void ::_unlock_heap(); // for unlock()
 
@@ -120,32 +118,27 @@ protected:
 
   static Thread *volatile running() { return _scheduler.chosen(); }
 
-  static void lock()
+  static void lock(Spin * lock = &_lock)
   {
     CPU::int_disable();
-    if (smp)
-    {
       lock->acquire();
-    }
   }
 
-  static void unlock()
+  static void unlock(Spin * lock = &_lock)
   {
-    if (smp)
-    {
+
       lock->release();
-    }
     CPU::int_enable();
   }
 
-  static volatile bool locked() { return (smp) ? _lock.taken() : CPU::int_disabled(); }
+  static volatile bool locked() { return _lock.taken(); }
 
   static void sleep(Queue *q);
   static void wakeup(Queue *q);
   static void wakeup_all(Queue *q);
 
   static void reschedule();
-  static void reschedule(unsigned int cpu);
+  //static void reschedule(unsigned int cpu);
   static void rescheduler(IC::Interrupt_Id interrupt);
   static void time_slicer(IC::Interrupt_Id interrupt);
 
