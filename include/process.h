@@ -65,7 +65,6 @@ public:
   typedef Traits<Thread>::Criterion Criterion;
   enum
   {
-    // ISR     = Criterion::ISR,
     HIGH = Criterion::HIGH,
     NORMAL = Criterion::NORMAL,
     LOW = Criterion::LOW,
@@ -121,13 +120,17 @@ protected:
   static void lock(Spin * lock = &_lock)
   {
     CPU::int_disable();
-      lock->acquire();
+     if(CPU::cores() > 1) {
+            lock->acquire();
+        }
   }
 
   static void unlock(Spin * lock = &_lock)
   {
 
-      lock->release();
+    if(CPU::cores() > 1) {
+            lock->release();
+        }
     CPU::int_enable();
   }
 

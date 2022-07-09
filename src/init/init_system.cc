@@ -62,7 +62,7 @@ public:
 
         if(CPU::id() == 0) {
             // Randomize the Random Numbers Generator's seed
-            if(Traits<Random>::enabled) {
+            if(Traits<Random>::enabled ) {
                 db<Init>(INF) << "Randomizing the Random Numbers Generator's seed." << endl;
                 if(Traits<TSC>::enabled)
                     Random::seed(TSC::time_stamp());

@@ -3,7 +3,6 @@
 #include <machine.h>
 #include <system.h>
 #include <process.h>
-// #include <clerk.h>
 
 // This_Thread class attributes
 __BEGIN_UTIL
@@ -39,14 +38,12 @@ void Thread::constructor_epilogue(Log_Addr entry, unsigned int stack_size)
 
   assert((_state != WAITING) && (_state != FINISHING)); // invalid states
 
-  if (multitask)
-    _task->insert(this);
 
   if ((_state != READY) && (_state != RUNNING))
     _scheduler.suspend(this);
 
   if (preemptive && (_state == READY) && (_link.rank() != IDLE))
-    reschedule(_link.rank().queue());
+    reschedule();
 
   unlock();
 }
@@ -89,11 +86,6 @@ Thread::~Thread()
     break;
   }
 
-  if (multitask)
-  {
-    _task->remove(this);
-    delete _user_stack;
-  }
 
   if (_joining)
     _joining->resume();
@@ -215,7 +207,7 @@ void Thread::resume()
     _scheduler.resume(this);
 
     if (preemptive)
-      reschedule(_link.rank().queue());
+      reschedule();
   }
   else
     db<Thread>(WRN) << "Resume called for unsuspended object!" << endl;
@@ -296,7 +288,7 @@ void Thread::wakeup(Queue *q)
     _scheduler.resume(t);
 
     if (preemptive)
-      reschedule(t->_link.rank().queue());
+      reschedule();
   }
 }
 
@@ -319,12 +311,9 @@ void Thread::wakeup_all(Queue *q)
       cpus |= 1 << t->_link.rank().queue();
     }
 
-    if (preemptive)
-    {
-      for (unsigned int i = 0; i < Criterion::QUEUES; i++)
-        if (cpus & (1 << i))
-          reschedule(i);
-    }
+        if(preemptive)
+            reschedule();
+   
   }
 }
 
@@ -430,8 +419,6 @@ void Thread::dispatch(Thread *prev, Thread *next, bool charge)
 
     if (smp)
       _lock.release();
-    if (multitask && (next->_task != prev->_task))
-      next->_task->activate();
 
     // The non-volatile pointer to volatile pointer to a non-volatile context is correct
     // and necessary because of context switches, but here, we are locked() and

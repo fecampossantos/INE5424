@@ -302,6 +302,7 @@ public:
         return old;
     }
 
+
     static void flush_tlb() {         ASM("sfence.vma"    : :           : "memory"); }
     static void flush_tlb(Reg addr) { ASM("sfence.vma %0" : : "r"(addr) : "memory"); }
 
@@ -329,6 +330,9 @@ public:
         sp -= sizeof(Context);
         Context * ctx = new(sp) Context(entry, exit);
         init_stack_helper(&ctx->_x10, an ...); // x10 is a0
+        sp -= sizeof(Context);
+        ctx = new(sp) Context(&_int_leave, 0); // this context will be popped by switch() to reach _int_leave(), which will activate the thread's context
+        ctx->_x10 = 0; // zero fr() for the pop(true) issued by _int_leave()
         return ctx;
     }
 
@@ -353,7 +357,7 @@ public:
     static void mint_enable()  { ASM("csrsi mstatus, %0" : : "i"(MIE) : "cc"); }
     static void mint_disable() { ASM("csrci mstatus, %0" : : "i"(MIE) : "cc"); }
 
-    static Reg mhartid() { Reg r; ASM("csrr %0, mhartid" : "=r"(r) : : "memory", "cc"); return r & 0x3; }
+    static Reg mhartid() { Reg r; ASM("csrr %0, mhartid" : "=r"(r) : : "memory", "cc"); return r; }
 
     static void mscratch(Reg r)   { ASM("csrw mscratch, %0" : : "r"(r) : "cc"); }
     static Reg  mscratch() { Reg r; ASM("csrr %0, mscratch" :  "=r"(r) : : ); return r; }
@@ -440,7 +444,7 @@ if(interrupt) {
     ASM("       csrr     x3,    mepc            \n"
         "       sd       x3,    0(sp)           \n");   // push MEPC as PC on interrupts
 } else {
-    ASM("       sw       x1,    0(sp)           \n");   // push RA as PC on context switches
+    ASM("       sd      x1,     0(sp)           \n");   // push RA as PC on context switches
 }
 
     ASM("       csrr     x3,  mstatus           \n");
