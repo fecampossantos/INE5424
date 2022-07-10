@@ -1,0 +1,1426 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+make --print-directory APPLICATION=producer_consumer clean1 prebuild_producer_consumer all1 posbuild_producer_consumer; make --print-directory APPLICATION=concurrent_philosophers_dinner clean1 prebuild_concurrent_philosophers_dinner all1 posbuild_concurrent_philosophers_dinner; make --print-directory APPLICATION=philosophers_dinner clean1 prebuild_philosophers_dinner all1 posbuild_philosophers_dinner; make --print-directory APPLICATION=hello clean1 prebuild_hello all1 posbuild_hello;
+ 
+make[1]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+(cd etc && make --ignore-errors clean)
+(cd app && make --ignore-errors clean)
+(cd src && make --ignore-errors clean)
+(cd img && make --ignore-errors clean)
+find /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -maxdepth 1 -type f -not -name .gitignore -exec rm -f {} \;
+echo -n "Building producer_consumer ..."
+(cd etc && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+ 
+makefile:8: *** Missing traits file /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/producer_consumer/producer_consumer_traits.h !.  Stop.
+make[1]: *** [makefile:17: etc] Error 2
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+(cd tools && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd eposcc && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+ 
+install -m 775 eposcc /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+(cd eposcfg && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposcfg.cc
+gcc -m64 -o eposcfg eposcfg.o
+install -m 775 eposcfg /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+(cd eposctors && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+ 
+install -m 775 eposctors /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+(cd eposmkbi && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposmkbi.cc
+gcc -m64 -o eposmkbi eposmkbi.o
+ 
+install -m 775 eposmkbi /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+ 
+(cd epostest && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+install -m 775 epostest /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/epostest
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd src && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd utility && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include aes.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a aes.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include bignum.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a bignum.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include delete.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a delete.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include elf.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a elf.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include heap.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a heap.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ostream.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a ostream.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include random.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a random.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include srec.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a srec.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include string.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a string.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+(cd architecture && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a mmu_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a mmu_common_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+(cd rv64 && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -E -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_crt0.S -o rv64_crt0.s
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-as -march=rv64gc -mabi=lp64d rv64_crt0.s -o rv64_crt0.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtbegin.c -o rv64_crtbegin.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtend.c -o rv64_crtend.o
+ 
+install rv64_crt0.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crt0_sifive_u.o
+install rv64_crtbegin.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtbegin_sifive_u.o
+install rv64_crtend.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtend_sifive_u.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_cpu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_pmu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_cpu_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_pmu_init.o
+rm rv64_crt0.s
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd machine && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include info.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a info.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include machine_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a machine_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rtc_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a rtc_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scratchpad_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a scratchpad_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_display.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_display.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_keyboard.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_keyboard.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+(cd "riscv" && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_ic.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_machine.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_timer.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_ic_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_machine_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_timer_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd api && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include address_space.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a address_space.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a alarm.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include condition.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a condition.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mutex.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a mutex.o
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scheduler.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a scheduler.o
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include segment.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a segment.o
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include semaphore.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a semaphore.o
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a thread.o
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm_init.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a alarm_init.o
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a system_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread_init.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a thread_init.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+(cd setup && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include setup_sifive_u.cc
+install setup_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+(cd boot && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+(cd system && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_scaffold.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include application_scaffold.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ld -m elf64lriscv_lp64f --no-relax -nostdlib -L/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -Bstatic -i system_scaffold.o -o system_sifive_u.o
+install application_scaffold.o application_sifive_u.o
+install system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+(cd init && make --print-directory)
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_application.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_begin.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_end.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_system.cc
+ 
+install init_begin.o init_begin_sifive_u.o
+install init_system.o init_system_sifive_u.o
+install init_application.o init_application_sifive_u.o
+install init_end.o init_end_sifive_u.o
+ 
+install init_begin_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_end_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd app && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+ 
+(cd producer_consumer && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/producer_consumer'
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow  -c -ansi -O -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -o producer_consumer.o producer_consumer.cc
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc --library --no-warn-mismatch --gc-sections --nmagic -o producer_consumer producer_consumer.o
+install producer_consumer /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/producer_consumer'
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+(cd img && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[2]: *** No rule to make target 'producer_consumer', needed by 'strip'.
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[1]: *** [makefile:17: img] Error 2
+
+echo " done!"
+make[1]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+make[1]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+(cd etc && make --ignore-errors clean)
+(cd app && make --ignore-errors clean)
+(cd src && make --ignore-errors clean)
+(cd img && make --ignore-errors clean)
+find /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -maxdepth 1 -type f -not -name .gitignore -exec rm -f {} \;
+echo -n "Building concurrent_philosophers_dinner ..."
+ 
+(cd etc && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+ 
+makefile:8: *** Missing traits file /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/concurrent_philosophers_dinner/concurrent_philosophers_dinner_traits.h !.  Stop.
+
+make[1]: *** [makefile:17: etc] Error 2
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+(cd tools && make --print-directory)
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd eposcc && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+ 
+install -m 775 eposcc /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+ 
+(cd eposcfg && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposcfg.cc
+gcc -m64 -o eposcfg eposcfg.o
+install -m 775 eposcfg /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+ 
+(cd eposctors && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+ 
+install -m 775 eposctors /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+ 
+(cd eposmkbi && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposmkbi.cc
+gcc -m64 -o eposmkbi eposmkbi.o
+install -m 775 eposmkbi /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+(cd epostest && make --print-directory)
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+install -m 775 epostest /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/epostest
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd src && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd utility && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include aes.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a aes.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include bignum.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a bignum.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include delete.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a delete.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include elf.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a elf.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include heap.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a heap.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ostream.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a ostream.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include random.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a random.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include srec.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a srec.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include string.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a string.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+(cd architecture && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a mmu_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a mmu_common_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+(cd rv64 && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -E -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_crt0.S -o rv64_crt0.s
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-as -march=rv64gc -mabi=lp64d rv64_crt0.s -o rv64_crt0.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtbegin.c -o rv64_crtbegin.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtend.c -o rv64_crtend.o
+ 
+install rv64_crt0.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crt0_sifive_u.o
+install rv64_crtbegin.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtbegin_sifive_u.o
+install rv64_crtend.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtend_sifive_u.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_cpu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_pmu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_cpu_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_pmu_init.o
+rm rv64_crt0.s
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd machine && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include info.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a info.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include machine_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a machine_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rtc_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a rtc_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scratchpad_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a scratchpad_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_display.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_display.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_keyboard.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_keyboard.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+(cd "riscv" && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_ic.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_machine.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_timer.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_ic_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_machine_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_timer_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd api && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include address_space.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a address_space.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a alarm.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include condition.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a condition.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mutex.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a mutex.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scheduler.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a scheduler.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include segment.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a segment.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include semaphore.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a semaphore.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a thread.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a alarm_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a system_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a thread_init.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+ 
+(cd setup && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include setup_sifive_u.cc
+install setup_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+(cd boot && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+(cd system && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_scaffold.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include application_scaffold.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ld -m elf64lriscv_lp64f --no-relax -nostdlib -L/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -Bstatic -i system_scaffold.o -o system_sifive_u.o
+install application_scaffold.o application_sifive_u.o
+ 
+install system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+ 
+(cd init && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_application.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_begin.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_end.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_system.cc
+ 
+install init_begin.o init_begin_sifive_u.o
+install init_system.o init_system_sifive_u.o
+install init_application.o init_application_sifive_u.o
+install init_end.o init_end_sifive_u.o
+ 
+install init_begin_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_end_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd app && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+ 
+(cd concurrent_philosophers_dinner && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/concurrent_philosophers_dinner'
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow  -c -ansi -O -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -o concurrent_philosophers_dinner.o concurrent_philosophers_dinner.cc
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc --library --no-warn-mismatch --gc-sections --nmagic -o concurrent_philosophers_dinner concurrent_philosophers_dinner.o
+install concurrent_philosophers_dinner /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/concurrent_philosophers_dinner'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+ 
+(cd img && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[2]: *** No rule to make target 'concurrent_philosophers_dinner', needed by 'strip'.
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[1]: *** [makefile:17: img] Error 2
+
+echo " done!"
+make[1]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+make[1]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+(cd etc && make --ignore-errors clean)
+(cd app && make --ignore-errors clean)
+(cd src && make --ignore-errors clean)
+(cd img && make --ignore-errors clean)
+find /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -maxdepth 1 -type f -not -name .gitignore -exec rm -f {} \;
+ 
+echo -n "Building philosophers_dinner ..."
+(cd etc && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+ 
+makefile:8: *** Missing traits file /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/philosophers_dinner/philosophers_dinner_traits.h !.  Stop.
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+ 
+make[1]: *** [makefile:17: etc] Error 2
+
+(cd tools && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd eposcc && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+ 
+install -m 775 eposcc /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+ 
+(cd eposcfg && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposcfg.cc
+gcc -m64 -o eposcfg eposcfg.o
+install -m 775 eposcfg /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+ 
+(cd eposctors && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+ 
+install -m 775 eposctors /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+ 
+(cd eposmkbi && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposmkbi.cc
+gcc -m64 -o eposmkbi eposmkbi.o
+install -m 775 eposmkbi /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+ 
+(cd epostest && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+install -m 775 epostest /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/epostest
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd src && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd utility && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include aes.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a aes.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include bignum.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a bignum.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include delete.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a delete.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include elf.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a elf.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include heap.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a heap.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ostream.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a ostream.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include random.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a random.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include srec.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a srec.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include string.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a string.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+(cd architecture && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a mmu_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a mmu_common_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+(cd rv64 && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -E -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_crt0.S -o rv64_crt0.s
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-as -march=rv64gc -mabi=lp64d rv64_crt0.s -o rv64_crt0.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtbegin.c -o rv64_crtbegin.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtend.c -o rv64_crtend.o
+ 
+install rv64_crt0.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crt0_sifive_u.o
+install rv64_crtbegin.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtbegin_sifive_u.o
+install rv64_crtend.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtend_sifive_u.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_cpu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_pmu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_cpu_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_pmu_init.o
+rm rv64_crt0.s
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd machine && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include info.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a info.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include machine_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a machine_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rtc_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a rtc_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scratchpad_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a scratchpad_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_display.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_display.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_keyboard.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_keyboard.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+(cd "riscv" && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_ic.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_machine.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_timer.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_ic_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_machine_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_timer_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd api && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include address_space.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a address_space.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a alarm.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include condition.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a condition.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mutex.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a mutex.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scheduler.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a scheduler.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include segment.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a segment.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include semaphore.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a semaphore.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a thread.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a alarm_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a system_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a thread_init.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+ 
+(cd setup && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include setup_sifive_u.cc
+install setup_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+(cd boot && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+(cd system && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_scaffold.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include application_scaffold.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ld -m elf64lriscv_lp64f --no-relax -nostdlib -L/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -Bstatic -i system_scaffold.o -o system_sifive_u.o
+install application_scaffold.o application_sifive_u.o
+ 
+install system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+ 
+(cd init && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_application.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_begin.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_end.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_system.cc
+ 
+install init_begin.o init_begin_sifive_u.o
+install init_system.o init_system_sifive_u.o
+install init_application.o init_application_sifive_u.o
+install init_end.o init_end_sifive_u.o
+ 
+install init_begin_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_end_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd app && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+ 
+(cd philosophers_dinner && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/philosophers_dinner'
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow  -c -ansi -O -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -o philosophers_dinner.o philosophers_dinner.cc
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc --library --no-warn-mismatch --gc-sections --nmagic -o philosophers_dinner philosophers_dinner.o
+install philosophers_dinner /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/philosophers_dinner'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+ 
+(cd img && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[2]: *** No rule to make target 'philosophers_dinner', needed by 'strip'.
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[1]: *** [makefile:17: img] Error 2
+
+echo " done!"
+make[1]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+make[1]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+(cd etc && make --ignore-errors clean)
+(cd app && make --ignore-errors clean)
+(cd src && make --ignore-errors clean)
+(cd img && make --ignore-errors clean)
+find /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -maxdepth 1 -type f -not -name .gitignore -exec rm -f {} \;
+ 
+echo -n "Building hello ..."
+(cd etc && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+ 
+makefile:8: *** Missing traits file /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/hello/hello_traits.h !.  Stop.
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/etc'
+ 
+make[1]: *** [makefile:17: etc] Error 2
+
+(cd tools && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd eposcc && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+ 
+install -m 775 eposcc /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcc'
+ 
+(cd eposcfg && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposcfg.cc
+gcc -m64 -o eposcfg eposcfg.o
+install -m 775 eposcfg /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposcfg'
+ 
+(cd eposctors && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+ 
+install -m 775 eposctors /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposctors'
+ 
+(cd eposmkbi && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+ 
+g++ -c -ansi -fno-exceptions -std=c++14 -m64 -Wall -O -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include eposmkbi.cc
+gcc -m64 -o eposmkbi eposmkbi.o
+install -m 775 eposmkbi /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/eposmkbi'
+ 
+(cd epostest && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+install -m 775 epostest /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin
+sed -e 's/^EPOS=.*$/EPOS=\/home\/pablo\/Documentos\/SO2\/ProjetoFinal\/P3\/INE5424/' -i /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/epostest
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools/epostest'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/tools'
+ 
+(cd src && make --print-directory)
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd utility && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include aes.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a aes.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include bignum.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a bignum.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include delete.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a delete.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include elf.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a elf.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include heap.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a heap.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ostream.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a ostream.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include random.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a random.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include srec.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a srec.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include string.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libutil_sifive_u.a string.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/utility'
+ 
+(cd architecture && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a mmu_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mmu_common_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a mmu_common_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/common'
+ 
+(cd rv64 && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -E -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_crt0.S -o rv64_crt0.s
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-as -march=rv64gc -mabi=lp64d rv64_crt0.s -o rv64_crt0.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtbegin.c -o rv64_crtbegin.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-gcc -ansi -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include ../common/crtend.c -o rv64_crtend.o
+ 
+install rv64_crt0.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crt0_sifive_u.o
+install rv64_crtbegin.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtbegin_sifive_u.o
+install rv64_crtend.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/crtend_sifive_u.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_cpu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libarch_sifive_u.a rv64_pmu.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_cpu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_cpu_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rv64_pmu_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a rv64_pmu_init.o
+rm rv64_crt0.s
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture/rv64'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/architecture'
+ 
+(cd machine && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd common && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include info.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a info.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include machine_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a machine_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include rtc_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a rtc_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scratchpad_common.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a scratchpad_common.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_display.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_display.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include serial_keyboard.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a serial_keyboard.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/common'
+ 
+(cd "riscv" && make --print-directory)
+ 
+make[4]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_ic.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_machine.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libmach_sifive_u.a riscv_timer.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_ic_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_ic_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_machine_init.cc
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_machine_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include riscv_timer_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a riscv_timer_init.o
+make[4]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine/riscv'
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/machine'
+ 
+(cd api && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include address_space.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a address_space.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a alarm.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include condition.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a condition.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include mutex.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a mutex.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include scheduler.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a scheduler.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include segment.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a segment.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include semaphore.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a semaphore.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libsys_sifive_u.a thread.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include alarm_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a alarm_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a system_init.o
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include thread_init.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ar rcs /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib/libinit_sifive_u.a thread_init.o
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/api'
+ 
+(cd setup && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include setup_sifive_u.cc
+install setup_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+ 
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/setup'
+ 
+(cd boot && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+make[3]: Nothing to be done for 'all'.
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/boot'
+ 
+(cd system && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include system_scaffold.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include application_scaffold.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-ld -m elf64lriscv_lp64f --no-relax -nostdlib -L/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib -Bstatic -i system_scaffold.o -o system_sifive_u.o
+install application_scaffold.o application_sifive_u.o
+ 
+install system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/system'
+ 
+(cd init && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_application.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_begin.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_end.cc
+ 
+/usr/local/rv64/bin/riscv64-unknown-linux-gnu-g++ -c -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -I/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/include init_system.cc
+ 
+install init_begin.o init_begin_sifive_u.o
+install init_system.o init_system_sifive_u.o
+install init_application.o init_application_sifive_u.o
+install init_end.o init_end_sifive_u.o
+ 
+install init_begin_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_system_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_application_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+install init_end_sifive_u.o /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/lib
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src/init'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/src'
+ 
+(cd app && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+ 
+(cd hello && make --print-directory)
+ 
+make[3]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/hello'
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -nostdinc --no-stack-protector --no-pie -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-address-of-packed-member -Wno-stringop-overflow  -c -ansi -O -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany -O -std=c++14 -nostdinc --no-exceptions --no-rtti --no-use-cxa-atexit --no-unwind-tables --no-asynchronous-unwind-tables --no-stack-protector --no-pie --data-sections --function-sections -Wall -Werror -Wno-builtin-declaration-mismatch -Wno-array-bounds -Wno-attribute-alias -Wno-placement-new -Wno-class-memaccess -Wno-address-of-packed-member -Wno-stringop-overflow -o hello.o hello.cc
+ 
+/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/bin/eposcc --library --no-warn-mismatch --gc-sections --nmagic -o hello hello.o
+install hello /home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img
+make[3]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app/hello'
+ 
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/app'
+ 
+(cd img && make --print-directory)
+ 
+make[2]: Entering directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[2]: *** No rule to make target 'hello', needed by 'strip'.
+
+make[2]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424/img'
+ 
+make[1]: *** [makefile:17: img] Error 2
+
+echo " done!"
+make[1]: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 
+make: *** [makefile:9: all] Error 2
+
+make: Leaving directory '/home/pablo/Documentos/SO2/ProjetoFinal/P3/INE5424'
+ 

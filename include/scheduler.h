@@ -145,6 +145,19 @@ public:
     FCFS(int p = NORMAL, Tn & ... an);
 };
 
+// Global Round-Robin
+class GRR: public RR
+{
+public:
+    static const unsigned int HEADS = Traits<Machine>::CPUS;
+
+public:
+    template <typename ... Tn>
+    GRR(int p = NORMAL, Tn & ... an): RR(p) {}
+
+    static unsigned int current_head() { return CPU::id(); }
+};
+
 __END_SYS
 
 #endif
