@@ -44,6 +44,7 @@ protected:
   // added for P3
   static const unsigned int QUANTUM = Traits<Thread>::QUANTUM;
   static const unsigned int USER_STACK_SIZE = Traits<Application>::STACK_SIZE;
+  static const unsigned int STACK_SIZE = Traits<Application>::STACK_SIZE;
 
   typedef CPU::Log_Addr Log_Addr;
   typedef CPU::Context Context;
