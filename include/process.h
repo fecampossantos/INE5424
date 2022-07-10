@@ -40,11 +40,9 @@ protected:
   // added for P3
   static const bool smp = Traits<Thread>::smp;
   static const bool monitored = Traits<Thread>::monitored;
-  static const bool multitask = Traits<System>::multitask;
 
   // added for P3
   static const unsigned int QUANTUM = Traits<Thread>::QUANTUM;
-  static const unsigned int STACK_SIZE = multitask ? Traits<System>::STACK_SIZE : Traits<Application>::STACK_SIZE;
   static const unsigned int USER_STACK_SIZE = Traits<Application>::STACK_SIZE;
 
   typedef CPU::Log_Addr Log_Addr;
@@ -141,7 +139,7 @@ protected:
   static void wakeup_all(Queue *q);
 
   static void reschedule();
-  //static void reschedule(unsigned int cpu);
+  static void reschedule(unsigned int cpu);
   static void rescheduler(IC::Interrupt_Id interrupt);
   static void time_slicer(IC::Interrupt_Id interrupt);
 

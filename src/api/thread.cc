@@ -364,42 +364,6 @@ void Thread::dispatch(Thread *prev, Thread *next, bool charge)
     if (Criterion::timed)
       _timer->restart();
 
-    if (Criterion::collecting)
-    {
-      prev->criterion().collect();
-      next->criterion().collect();
-      if (Criterion::task_wide)
-        for_all_threads_in_task(prev->task(), &collector, prev);
-      if (Criterion::cpu_wide)
-        for_all_threads_in_cpu(CPU::id(), &collector, prev);
-      if (Criterion::system_wide)
-        for_all_threads(&collector, prev);
-      prev->criterion().collect(true);
-    }
-    if (Criterion::charging)
-    {
-      prev->criterion().charge();
-      if (Criterion::cpu_wide)
-        for_all_threads(&charger, prev);
-      prev->criterion().charge(true);
-    }
-    if (Criterion::awarding)
-    {
-      next->criterion().award();
-      if (Criterion::cpu_wide)
-        for_all_threads(&charger);
-      next->criterion().award(true);
-    }
-    if (Criterion::migrating && (next->criterion().statistics().destination_cpu != Criterion::ANY))
-    {
-      next->criterion().statistics().destination_cpu = Criterion::ANY;
-      Criterion c = next->priority();
-      c.queue((next->criterion().statistics().destination_cpu));
-      next->priority(c); // reorder queues for migration
-      next = _scheduler.choose_another();
-    }
-    if (monitored)
-      Monitor::run();
   }
 
   if (prev != next)
@@ -451,8 +415,8 @@ int Thread::idle()
 
   if (CPU::id() == 0)
   {
-    if (monitored)
-      Monitor::process_batch();
+    // if (monitored)
+    //   Monitor::process_batch();
 
     db<Thread>(WRN) << "The last thread has exited!" << endl;
     if (reboot)
