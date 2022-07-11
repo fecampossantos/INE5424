@@ -31,13 +31,6 @@ public:
         LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
         IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
     };
-    // enum : int {
-    //     MAIN   = 0,
-    //     HIGH   = 100,
-    //     NORMAL = 120,
-    //     LOW    = 130,
-    //     IDLE   = 281
-    // };
 
     // Constructor helpers
     enum : unsigned int {
