@@ -377,7 +377,7 @@ void Thread::time_slicer(IC::Interrupt_Id i)
     Thread *prev = running();
     
     //calls function to switch queues on scheduler
-    prev->criterion().switch_queue()
+    prev->criterion().switch_queue();
   }
 
   reschedule();

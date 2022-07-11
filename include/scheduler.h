@@ -187,6 +187,7 @@ public:
 
     bool switch_queue() {
         // MAIN and IDLE should always be kept on the first queue
+        // Se a main e idle sempre ficarem na primeira metade da lista nunca vai acontecer a troca das queues?
         if (_priority == MAIN || _priority == IDLE) return false;
         
 
