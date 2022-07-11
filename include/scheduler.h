@@ -192,12 +192,10 @@ class LOST: public RR
 {
 public:
     static const unsigned int HEADS = Traits<Machine>::CPUS;
-    static const unsigned int QUEUES = 2;
     static const bool switching = true;
 public:
     template <typename ... Tn>
     LOST(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
-    typedef R Rank_Type;
 
     unsigned int current_queue;
 
@@ -206,8 +204,6 @@ public:
     }
 
     static unsigned int current_head() { return CPU::id(); }
-
-    static unsigned int queue() { current_queue; }
 
     bool switch_queue() {
         // MAIN and IDLE should always be kept on the first queue
