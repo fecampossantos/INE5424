@@ -155,7 +155,7 @@ public:
     static unsigned int current_head() { return CPU::id(); }
 };
 
-// The Chosen One
+// Linux Old Scheduler Timed
 /*
     The Chosen One is a constant time scheduling algorithm based on the old O(1) linux scheduler
 
