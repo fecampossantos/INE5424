@@ -196,6 +196,7 @@ public:
     unsigned int current_queue;
 
     operator const volatile int() const volatile {
+        // maps the proccess to first or second half, depending on the current_queue
         return _priority * current_queue;
     }
 
@@ -206,7 +207,6 @@ public:
         // Se a main e idle sempre ficarem na primeira metade da lista nunca vai acontecer a troca das queues?
         if (_priority == MAIN || _priority == IDLE) return false;
         
-
         if(current_queue == 1) {
             current_queue = 2;
             return true;
