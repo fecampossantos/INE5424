@@ -324,7 +324,7 @@ void Thread::wakeup_all(Queue *q)
   if (!q->empty())
   {
     assert(Criterion::QUEUES <= sizeof(unsigned int) * 8);
-    unsigned int cpus = 0;
+    // unsigned int cpus = 0;
     while (!q->empty())
     {
       Thread *t = q->remove()->object();
@@ -334,8 +334,8 @@ void Thread::wakeup_all(Queue *q)
       //cpus |= 1 << t->_link.rank().queue();
     }
 
-        if(preemptive)
-            reschedule();
+    if(preemptive)
+        reschedule();
    
   }
 }
