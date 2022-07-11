@@ -134,7 +134,7 @@ protected:
     CPU::int_enable();
   }
 
-  static volatile bool locked() { return _lock.taken(); }
+  static volatile bool locked() { return (smp)?  _lock.taken() : CPU::int_disabled();}
 
   static void sleep(Queue *q);
   static void wakeup(Queue *q);

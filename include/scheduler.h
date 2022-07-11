@@ -23,21 +23,21 @@ class Scheduling_Criterion_Common
     friend class _SYS::Clerk<System>;         // for _statistics
 
 public:
-    // Priorities
-    // enum : int {
-    //     MAIN   = 0,
-    //     HIGH   = 1,
-    //     NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
-    //     LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
-    //     IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
-    // };
+    Priorities
     enum : int {
         MAIN   = 0,
-        HIGH   = 100,
-        NORMAL = 120,
-        LOW    = 130,
-        IDLE   = 281
+        HIGH   = 1,
+        NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
+        LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
+        IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
     };
+    // enum : int {
+    //     MAIN   = 0,
+    //     HIGH   = 100,
+    //     NORMAL = 120,
+    //     LOW    = 130,
+    //     IDLE   = 281
+    // };
 
     // Constructor helpers
     enum : unsigned int {
@@ -67,8 +67,10 @@ public:
     static const bool task_wide = false;
     static const bool cpu_wide = false;
     static const bool system_wide = false;
+
+    // for LOST
     static const unsigned int QUEUES = 1;
-    static const unsigned int current_queue = 1;
+    static const unsigned int current_queue = 1; // starts all threads with priority
 
     // Runtime Statistics (for policies that don't use any; that´s why its a union)
     union Statistics {
@@ -102,7 +104,8 @@ public:
     bool collect(bool end = false) { return false; }
     bool charge(bool end = false) { return true; }
     bool award(bool end = false) { return true; }
-    bool _switch(bool end = false) { return false; }
+
+    bool switch_queue(bool end = false) { return false; }
 
     volatile Statistics & statistics() { return _statistics; }
 
@@ -168,6 +171,19 @@ public:
     FCFS(int p = NORMAL, Tn & ... an);
 };
 
+
+// Based on Linux O(1) - old //
+/**
+ * - preemptive
+ * - priority based
+ * - queue 1 [ACTIVE] - main queue, mapped to the first half
+ * - queue 2 [EXPIRED] - mapped to the second half
+ * 
+ * > The scheduler may suffer starvation (the original Linux O(1) also had this problem)
+ * > Nice value was not implemented for this scheduler
+ * > Two separate queues would be closer to the real Linux O(1) scheduler
+ *
+ **/
 class LOST: public RR
 {
 public:
