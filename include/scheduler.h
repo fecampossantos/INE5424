@@ -172,8 +172,7 @@ public:
     We've added a new 'switching' flag on policies, and a new _switch method which is called every time
     a schedule timer interruption is triggered for a thread.
 
-    In a scenario where new threads are continuosly added to the ready queue, this scheduler can suffer
-    from starvation, but so does O(1) and thats one of the reasons why it was replaced for CFS.
+    This scheduler can suffer from starvation, but so does O(1).
 */
 class LOST: public RR
 {

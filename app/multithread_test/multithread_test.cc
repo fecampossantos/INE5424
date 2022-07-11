@@ -12,7 +12,7 @@ using namespace EPOS;
 
 #define N_THREADS 4
 
-Thread * thread_list[8];
+Thread *thread_list[N_THREADS];
 
 OStream cout;
 
@@ -20,33 +20,33 @@ int calculate(int i);
 
 int main()
 {
-    cout << "Running multithread test with " << CPU::cores() << " cores" << endl;
-    cout << endl;
+  cout << "Running multithread test with " << CPU::cores() << " cores" << endl;
+  cout << endl;
 
-    for (auto i = 0; i < N_THREADS; i++) {
-        cout << "Creating thread #" << i << endl;
-        thread_list[i] = new Thread(&calculate);
-    }
+  for (auto i = 0; i < N_THREADS; i++)
+  {
+    cout << "Creating thread #" << i << endl;
+    // creates thread with function that runs enough to be preempted
+    thread_list[i] = new Thread(&calculate, i);
+  }
 
-    // Each time one of the words is swapped from a queue to another
-    // a WRN is raised, we kept warnings ON for test purposes
-    for (auto i = 0; i < N_THREADS; i++) {
-        int core = thread_list[i]->join();
-        cout << "Thread " << i << " returned from core " << core << " with priority " << thread_list[i]->criterion() << endl;
-    }
+  for (auto i = 0; i < N_THREADS; i++)
+  {
+    int core = thread_list[i]->join();
+    cout << "Thread " << i << " ran on core " << core << "." << endl;
+  }
 
-    return 0;
+  return 0;
 }
 
-// Worker with dummy operations that take long enough to be preempted
-int calculate() {
-    int j = 0;
+int calculate(int i)
+{
+  int j = i * 100;
+  for (auto i = 0; i < 10000000; i++)
+  {
+    j++;
+  }
 
-    int core = CPU::id();
-
-    for (auto i = 0; i < 10000000; i++) {
-        j++;
-    }
-
-    return core;
+  int core = CPU::id();
+  return core;
 }

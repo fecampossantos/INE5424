@@ -38,7 +38,6 @@ void Thread::constructor_epilogue(Log_Addr entry, unsigned int stack_size)
 
   assert((_state != WAITING) && (_state != FINISHING)); // invalid states
 
-
   if ((_state != READY) && (_state != RUNNING))
     _scheduler.suspend(this);
 
@@ -86,7 +85,6 @@ Thread::~Thread()
     break;
   }
 
-
   if (_joining)
     _joining->resume();
 
@@ -95,25 +93,25 @@ Thread::~Thread()
   delete _stack;
 }
 
-//void Thread::priority(const Criterion & c)
+// void Thread::priority(const Criterion & c)
 //{
-//    lock();
+//     lock();
 //
-//    db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+//     db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
 //
-//    if(_state != RUNNING) { // reorder the scheduling queue
-//        _scheduler.remove(this);
+//     if(_state != RUNNING) { // reorder the scheduling queue
+//         _scheduler.remove(this);
+//         _link.rank(c);
+//         _scheduler.insert(this);
+//     } else {
 //        _link.rank(c);
-//        _scheduler.insert(this);
-//    } else {
-//       _link.rank(c);
-//    }
+//     }
 //
-//    if(preemptive)
-//        reschedule();
+//     if(preemptive)
+//         reschedule();
 //
-//    unlock();
-//}
+//     unlock();
+// }
 
 void Thread::priority(const Criterion &c)
 {
@@ -288,9 +286,9 @@ void Thread::sleep(Queue *q)
   prev->_waiting = q;
   q->insert(&prev->_link);
 
-//if (Criterion::collecting) {
-//        prev->criterion().collect();
-//    }
+  // if (Criterion::collecting) {
+  //         prev->criterion().collect();
+  //     }
 
   Thread *next = _scheduler.chosen();
 
@@ -331,12 +329,11 @@ void Thread::wakeup_all(Queue *q)
       t->_state = READY;
       t->_waiting = 0;
       _scheduler.resume(t);
-      //cpus |= 1 << t->_link.rank().queue();
+      // cpus |= 1 << t->_link.rank().queue();
     }
 
-    if(preemptive)
-        reschedule();
-   
+    if (preemptive)
+      reschedule();
   }
 }
 
@@ -375,13 +372,14 @@ void Thread::time_slicer(IC::Interrupt_Id i)
 {
   lock();
 
-
-if (Criterion::switching) {
-        Thread * prev = running(); 
-        if(prev->criterion()._switch()) {
-            db<Thread>(WRN) << "Preempted(this=" << prev << ", queue=" << prev->criterion().current_queue << ")" << endl;
-        }
+  if (Criterion::switching)
+  {
+    Thread *prev = running();
+    if (prev->criterion()._switch())
+    {
+      db<Thread>(WRN) << "Preempted(this=" << prev << ", queue=" << prev->criterion().current_queue << ")" << endl;
     }
+  }
 
   reschedule();
   unlock();
@@ -395,7 +393,6 @@ void Thread::dispatch(Thread *prev, Thread *next, bool charge)
   {
     if (Criterion::timed)
       _timer->restart();
-
   }
 
   if (prev != next)
