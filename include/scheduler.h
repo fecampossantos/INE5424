@@ -168,26 +168,6 @@ public:
     FCFS(int p = NORMAL, Tn & ... an);
 };
 
-
-// Linux Old Scheduler Timed
-/*
-    - based on the old O(1) linux scheduler
-
-    It uses two queues: active and expired (emulated here by a multiplier) for preventing starvation,
-    putting newly added threads into the active queue and switching them after one QUANTUM of execution.
-
-    In the original O(1), if the active queue is empty, then the pointers for the queues are swapped
-    and the expired becomes the new active and a new cycle of executions will begin.
-
-    In The Chosen One we opted for using a single queue with an offset multiplier for its first implementation,
-    when a thread uses all its CPU time, we switch the current_queue. All members of queue 01 will have
-    a higher priority than any member of queue 02.
-
-    We've added a new 'switching' flag on policies, and a new switch_queue method which is called every time
-    a schedule timer interruption is triggered for a thread.
-
-    This scheduler can suffer from starvation, but so does O(1).
-*/
 class LOST: public RR
 {
 public:
