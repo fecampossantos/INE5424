@@ -158,6 +158,28 @@ public:
     static unsigned int current_head() { return CPU::id(); }
 };
 
+// Linux old O(1)
+class LinuxOld: public Priority
+{
+public:
+    static const bool timed = true;
+    static const bool dynamic = false;
+    static const bool preemptive = true;
+
+public:
+    template <typename ... Tn>
+    LinuxOld(int p = NORMAL, Tn & ... an): Priority(p){}
+}
+
 __END_SYS
+
+__BEGIN_UTIL
+
+// Scheduling Queues
+template<typename T>
+class Scheduling_Queue<T, LinuxOld>:
+public Multihead_Scheduling_List<T> {};
+
+__END_UTIL
 
 #endif

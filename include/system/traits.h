@@ -106,6 +106,7 @@ class RM;
 class DM;
 class EDF;
 class GRR;
+class LinuxOld;
 class Fixed_CPU;
 class CPU_Affinity;
 class GEDF;
