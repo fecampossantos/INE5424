@@ -51,8 +51,17 @@ void Thread::init()
     // No more interrupts until we reach init_end
     CPU::int_disable();
 
-    // Transition from CPU-based locking to thread-based locking
+    if (Traits<Thread>::smp) {
+        if (CPU::id() == 0) {
+            IC::int_vector(IC::INT_RESCHEDULER, rescheduler);
+        }
+
+        IC::enable(IC::INT_RESCHEDULER);
+    }
+    
     CPU::smp_barrier();
+    
+    // Transition from CPU-based locking to thread-based locking
     This_Thread::not_booting();
 }
 

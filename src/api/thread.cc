@@ -95,8 +95,28 @@ Thread::~Thread()
   delete _stack;
 }
 
+//void Thread::priority(const Criterion & c)
+//{
+//    lock();
+//
+//    db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+//
+//    if(_state != RUNNING) { // reorder the scheduling queue
+//        _scheduler.remove(this);
+//        _link.rank(c);
+//        _scheduler.insert(this);
+//    } else {
+//       _link.rank(c);
+//    }
+//
+//    if(preemptive)
+//        reschedule();
+//
+//    unlock();
+//}
+
 void Thread::priority(const Criterion &c)
-{ // TALVEZ TENHA QUE MEXER AQUI
+{
   lock();
 
   db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
@@ -203,7 +223,6 @@ void Thread::resume()
   if (_state == SUSPENDED)
   {
     _state = READY;
-    // aqui acho que tem que escolher o core livre pra rodar a thread
     _scheduler.resume(this);
 
     if (preemptive)
@@ -269,6 +288,10 @@ void Thread::sleep(Queue *q)
   prev->_waiting = q;
   q->insert(&prev->_link);
 
+//if (Criterion::collecting) {
+//        prev->criterion().collect();
+//    }
+
   Thread *next = _scheduler.chosen();
 
   dispatch(prev, next);
@@ -308,7 +331,7 @@ void Thread::wakeup_all(Queue *q)
       t->_state = READY;
       t->_waiting = 0;
       _scheduler.resume(t);
-      cpus |= 1 << t->_link.rank().queue();
+      //cpus |= 1 << t->_link.rank().queue();
     }
 
         if(preemptive)
@@ -344,13 +367,22 @@ void Thread::reschedule(unsigned int cpu)
 void Thread::rescheduler(IC::Interrupt_Id i)
 {
   lock();
-  reschedule();
+  reschedule(i);
   unlock();
 }
 
 void Thread::time_slicer(IC::Interrupt_Id i)
 {
   lock();
+
+
+if (Criterion::switching) {
+        Thread * prev = running(); 
+        if(prev->criterion()._switch()) {
+            db<Thread>(WRN) << "Preempted(this=" << prev << ", queue=" << prev->criterion().current_queue << ")" << endl;
+        }
+    }
+
   reschedule();
   unlock();
 }
