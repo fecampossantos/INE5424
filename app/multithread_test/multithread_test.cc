@@ -41,10 +41,10 @@ int main()
 
 int calculate(int i)
 {
-  int j = i * 100;
-  for (auto i = 0; i < 10000000; i++)
+  int j = i * 8;
+  for (auto i = 0; i < 500000; i++)
   {
-    j++;
+    j=j*i;
   }
 
   int core = CPU::id();
