@@ -120,9 +120,9 @@ protected:
   static void lock(Spin * lock = &_lock)
   {
     CPU::int_disable();
-     if(CPU::cores() > 1) {
-            lock->acquire();
-        }
+    if(CPU::cores() > 1) {
+          lock->acquire();
+      }
   }
 
   static void unlock(Spin * lock = &_lock)
