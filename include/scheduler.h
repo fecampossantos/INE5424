@@ -105,7 +105,7 @@ public:
     bool charge(bool end = false) { return true; }
     bool award(bool end = false) { return true; }
 
-    bool switch_queue(bool end = false) { return false; }
+    bool swap_queues(bool end = false) { return false; }
 
     volatile Statistics & statistics() { return _statistics; }
 
@@ -202,7 +202,7 @@ public:
 
     static unsigned int current_head() { return CPU::id(); }
 
-    bool switch_queue() {
+    bool swap_queues() {
         // MAIN and IDLE should always be kept on the first queue
         // Se a main e idle sempre ficarem na primeira metade da lista nunca vai acontecer a troca das queues?
         if (_priority == MAIN || _priority == IDLE) return false;
