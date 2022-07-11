@@ -155,9 +155,23 @@ public:
     static unsigned int current_head() { return CPU::id(); }
 };
 
+// First-Come, First-Served (FIFO)
+class FCFS: public Priority
+{
+public:
+    static const bool timed = false;
+    static const bool dynamic = false;
+    static const bool preemptive = false;
+
+public:
+    template <typename ... Tn>
+    FCFS(int p = NORMAL, Tn & ... an);
+};
+
+
 // Linux Old Scheduler Timed
 /*
-    The Chosen One is a constant time scheduling algorithm based on the old O(1) linux scheduler
+    - based on the old O(1) linux scheduler
 
     It uses two queues: active and expired (emulated here by a multiplier) for preventing starvation,
     putting newly added threads into the active queue and switching them after one QUANTUM of execution.
@@ -185,8 +199,6 @@ public:
 
     unsigned int current_queue;
 
-    // IDLE and MAIN threads are always kept in 01 queue, thus we do not need
-    // to check for specific cases in the casting operator
     operator const volatile int() const volatile {
         return _priority * current_queue;
     }
@@ -194,90 +206,17 @@ public:
     static unsigned int current_head() { return CPU::id(); }
 
     bool _switch() {
-        // Never change MAIN or IDLE queues
+        // MAIN and IDLE should always be kept on the first queue
         if (_priority == MAIN || _priority == IDLE) return false;
-        
-        current_queue = current_queue == 1 ? 2 : 1;
 
-        return true;
+        if(current_queue == 1) {
+            current_queue = 2;
+            return true;
+        } else {
+            current_queue = 1;
+            return false;
+        }
     }
-};
-
-// Non-preemptive dynamic priority scheduler that benefits I/O-bound threads
-// We're assuming by the EPOS design that a thread going into "sleep" is
-// being interrupted for I/O operations.
-class IOB: public Priority
-{
-public:
-    static const bool timed = true;
-    static const bool dynamic = true;
-    static const bool preemptive = false;
-    static const bool collecting = true;
-
-public:
-    template <typename ... Tn>
-    
-    IOB(int p = NORMAL, Tn & ... an) : Priority(p), _sleep_counter{0} {}
-
-    unsigned int _sleep_counter;
-
-    bool collect(bool end = false) {
-        _sleep_counter++;
-        return false;
-    }
-
-    operator const volatile int() const volatile {
-        if (_priority == IDLE) return IDLE;
-
-        if (_priority - _sleep_counter < 1) return HIGH;
-
-        return _priority - _sleep_counter;
-    }
-};
-
-// Time-preemptive dynamic priority scheduler that benefits I/O-bound threads
-// We're assuming by the EPOS design that a thread going into "sleep" is
-// being interrupted for I/O operations.
-class TIOB: public Priority
-{
-public:
-    static const bool timed = true;
-    static const bool dynamic = true;
-    static const bool preemptive = true;
-    static const bool collecting = true;
-
-public:
-    template <typename ... Tn>
-    
-    TIOB(int p = NORMAL, Tn & ... an) : Priority(p), _sleep_counter{0} {}
-
-    unsigned int _sleep_counter;
-
-    bool collect(bool end = false) {
-        _sleep_counter++;
-        return false;
-    }
-
-    operator const volatile int() const volatile {
-        if (_priority == IDLE) return IDLE;
-
-        if (_priority - _sleep_counter < 1) return HIGH;
-
-        return _priority - _sleep_counter;
-    }
-};
-
-// First-Come, First-Served (FIFO)
-class FCFS: public Priority
-{
-public:
-    static const bool timed = false;
-    static const bool dynamic = false;
-    static const bool preemptive = false;
-
-public:
-    template <typename ... Tn>
-    FCFS(int p = NORMAL, Tn & ... an);
 };
 
 __END_SYS
