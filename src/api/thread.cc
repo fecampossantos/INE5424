@@ -375,12 +375,9 @@ void Thread::time_slicer(IC::Interrupt_Id i)
   if (Criterion::switching)
   {
     Thread *prev = running();
-
+    
     //calls function to switch queues on scheduler
-    if (prev->criterion().switch_queue())
-    {
-      db<Thread>(WRN) << "Preempted(this=" << prev << ", queue= #" << prev->criterion().current_queue << ")" << endl;
-    }
+    prev->criterion().switch_queue()
   }
 
   reschedule();
