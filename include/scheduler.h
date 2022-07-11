@@ -23,7 +23,7 @@ class Scheduling_Criterion_Common
     friend class _SYS::Clerk<System>;         // for _statistics
 
 public:
-    Priorities
+    // Priorities
     enum : int {
         MAIN   = 0,
         HIGH   = 1,
