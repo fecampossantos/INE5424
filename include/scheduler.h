@@ -183,7 +183,7 @@ public:
     when a thread uses all its CPU time, we switch the current_queue. All members of queue 01 will have
     a higher priority than any member of queue 02.
 
-    We've added a new 'switching' flag on policies, and a new _switch method which is called every time
+    We've added a new 'switching' flag on policies, and a new switch_queue method which is called every time
     a schedule timer interruption is triggered for a thread.
 
     This scheduler can suffer from starvation, but so does O(1).
@@ -205,7 +205,7 @@ public:
 
     static unsigned int current_head() { return CPU::id(); }
 
-    bool _switch() {
+    bool switch_queue() {
         // MAIN and IDLE should always be kept on the first queue
         if (_priority == MAIN || _priority == IDLE) return false;
 
