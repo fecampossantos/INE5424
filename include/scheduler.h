@@ -175,14 +175,14 @@ public:
     In a scenario where new threads are continuosly added to the ready queue, this scheduler can suffer
     from starvation, but so does O(1) and thats one of the reasons why it was replaced for CFS.
 */
-class TCO: public RR
+class LOST: public RR
 {
 public:
     static const unsigned int HEADS = Traits<Machine>::CPUS;
     static const bool switching = true;
 public:
     template <typename ... Tn>
-    TCO(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
+    LOST(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
 
     unsigned int current_queue;
 
@@ -291,7 +291,7 @@ class Scheduling_Queue<T, GRR>:
 public Multihead_Scheduling_List<T> {};
 
 template<typename T>
-class Scheduling_Queue<T, TCO>:
+class Scheduling_Queue<T, LOST>:
 public Multihead_Scheduling_List<T> {};
 
 __END_UTIL
