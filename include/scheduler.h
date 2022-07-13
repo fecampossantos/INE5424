@@ -62,8 +62,12 @@ public:
     static const bool system_wide = false;
 
     // for LOST
-    static const unsigned int QUEUES = 1;
+    // static const unsigned int QUEUES = 1;
     static const unsigned int current_queue = 1; // starts all threads with priority
+
+    // for PMS
+    static const unsigned int QUEUES = CPU::cores(); // each core has its own list
+
 
     // Runtime Statistics (for policies that don't use any; that´s why its a union)
     union Statistics {
@@ -209,6 +213,38 @@ public:
     }
 };
 
+// Partitioned Multicore Scheduler
+/*
+In this Partitioned Multicore Scheduler, we will separate the M cores in 3 groups:
+- Group 1 will be responsible for xx tasks
+- Group 2 will be responsible for xx tasks
+- Group 3 will be responsible for xx tasks
+
+when an interrupt is received, depending on the task type, the thread will be assigned to
+a queue on that group's core
+*/
+class PMS: public RR
+{
+public:
+    static const unsigned int HEADS = Traits<Machine>::CPUS;
+    static const bool switching = true;
+public:
+    template <typename ... Tn>
+    LOST(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
+
+    unsigned int current_queue;
+
+    operator const volatile int() const volatile {
+        // maps the proccess to first or second half, depending on the current_queue
+        return _priority * current_queue;
+    }
+
+    static unsigned int current_head() { return CPU::id(); }
+
+    // TODO change method to return the queue in which the object currently resides.
+    static unsigned int queue() { return 0;}
+}
+
 __END_SYS
 
 __BEGIN_UTIL
@@ -218,9 +254,15 @@ template<typename T>
 class Scheduling_Queue<T, GRR>:
 public Multihead_Scheduling_List<T> {};
 
+// LOST
 template<typename T>
 class Scheduling_Queue<T, LOST>:
 public Multihead_Scheduling_List<T> {};
+
+// PMS
+template<typename T>
+class Scheduling_Queue<T, PMS>:
+public Scheduling_Multilist<T> {};
 
 __END_UTIL
 
