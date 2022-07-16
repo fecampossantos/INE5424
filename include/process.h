@@ -60,6 +60,13 @@ public:
     FINISHING
   };
 
+  // Thread Type
+  enum Type
+  {
+    IO,
+    CPU
+  };
+
   // Thread Scheduling Criterion
   typedef Traits<Thread>::Criterion Criterion;
   enum
@@ -77,12 +84,14 @@ public:
   // Thread Configuration
   struct Configuration
   {
-    Configuration(const State &s = READY, const Criterion &c = NORMAL, unsigned int ss = STACK_SIZE)
-        : state(s), criterion(c), stack_size(ss) {}
+    Configuration(const State &s = READY, const Criterion &c = NORMAL, unsigned int ss = STACK_SIZE, const Type &t = CPU)
+        : state(s), criterion(c), stack_size(ss), type(t) {}
 
     State state;
     Criterion criterion;
     unsigned int stack_size;
+    Type type;
+
   };
 
 public:
@@ -93,6 +102,7 @@ public:
   ~Thread();
 
   const volatile State &state() const { return _state; }
+  const volatile Type &type() const { return _type; }
   const volatile Criterion::Statistics &statistics() { return criterion().statistics(); }
 
   const volatile Criterion &priority() const { return _link.rank(); }
@@ -159,6 +169,11 @@ protected:
   Queue *_waiting;
   Thread *volatile _joining;
   Queue::Element _link;
+
+  // counts how many times this process waited for IO
+  static volatile unsigned int _waiting_count;
+  // defines if process uses more IO or CPU
+  volatile Type _type;
 
   static volatile unsigned int _thread_count;
   static Scheduler_Timer *_timer;
