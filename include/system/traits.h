@@ -107,6 +107,7 @@ class DM;
 class EDF;
 class GRR;
 class LOST;
+class PMS;
 class Fixed_CPU;
 class CPU_Affinity;
 class GEDF;
