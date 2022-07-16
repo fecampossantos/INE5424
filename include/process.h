@@ -63,8 +63,8 @@ public:
   // Thread Type
   enum Type
   {
-    IO,
-    CPU
+    IO_BOUND,
+    CPU_BOUND
   };
 
   // Thread Scheduling Criterion
@@ -84,7 +84,7 @@ public:
   // Thread Configuration
   struct Configuration
   {
-    Configuration(const State &s = READY, const Criterion &c = NORMAL, unsigned int ss = STACK_SIZE, const Type &t = CPU)
+    Configuration(const State &s = READY, const Criterion &c = NORMAL, unsigned int ss = STACK_SIZE, const Type &t = CPU_BOUND)
         : state(s), criterion(c), stack_size(ss), type(t) {}
 
     State state;
@@ -171,7 +171,7 @@ protected:
   Queue::Element _link;
 
   // counts how many times this process waited for IO
-  static volatile unsigned int _waiting_count;
+  volatile unsigned int _waiting_count;
   // defines if process uses more IO or CPU
   volatile Type _type;
 
@@ -183,7 +183,7 @@ protected:
 
 template <typename... Tn>
 inline Thread::Thread(int (*entry)(Tn...), Tn... an)
-    : _state(READY), _waiting(0), _joining(0), _link(this, NORMAL), _waiting_count(0), _type(CPU)
+    : _state(READY), _waiting(0), _joining(0), _link(this, NORMAL), _waiting_count(0), _type(CPU_BOUND)
 {
   constructor_prologue(STACK_SIZE);
   _context = CPU::init_stack(0, _stack + STACK_SIZE, &__exit, entry, an...);
