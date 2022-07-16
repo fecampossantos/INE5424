@@ -16,6 +16,8 @@ Scheduler_Timer *Thread::_timer;
 Scheduler<Thread> Thread::_scheduler;
 Spin Thread::_lock;
 
+int IO_COUNT=1;
+
 void Thread::constructor_prologue(unsigned int stack_size)
 {
   lock();
@@ -93,59 +95,59 @@ Thread::~Thread()
   delete _stack;
 }
 
-// void Thread::priority(const Criterion & c)
-//{
-//     lock();
-//
-//     db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
-//
-//     if(_state != RUNNING) { // reorder the scheduling queue
-//         _scheduler.remove(this);
-//         _link.rank(c);
-//         _scheduler.insert(this);
-//     } else {
-//        _link.rank(c);
-//     }
-//
-//     if(preemptive)
-//         reschedule();
-//
-//     unlock();
-// }
-
-void Thread::priority(const Criterion &c)
+void Thread::priority(const Criterion & c)
 {
-  lock();
+    lock();
 
-  db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+    db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
 
-  unsigned int old_cpu = _link.rank().queue();
-  unsigned int new_cpu = c.queue();
-
-  if (_state != RUNNING)
-  { // reorder the scheduling queue
-    _scheduler.remove(this);
-    _link.rank(c);
-    _scheduler.insert(this);
-  }
-  else
-    _link.rank(c);
-
-  if (preemptive)
-  {
-    if (smp)
-    {
-      if (old_cpu != CPU::id())
-        reschedule(old_cpu);
-      if (new_cpu != CPU::id())
-        reschedule(new_cpu);
+    if(_state != RUNNING) { // reorder the scheduling queue
+        _scheduler.remove(this);
+        _link.rank(c);
+        _scheduler.insert(this);
+    } else {
+       _link.rank(c);
     }
-    else
-      reschedule();
-  }
 
-  unlock();
+    if(preemptive)
+        reschedule();
+
+    unlock();
 }
+
+// void Thread::priority(const Criterion &c)
+// {
+//   lock();
+
+//   db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+
+//   unsigned int old_cpu = _link.rank().queue();
+//   unsigned int new_cpu = c.queue();
+
+//   if (_state != RUNNING)
+//   { // reorder the scheduling queue
+//     _scheduler.remove(this);
+//     _link.rank(c);
+//     _scheduler.insert(this);
+//   }
+//   else
+//     _link.rank(c);
+
+//   if (preemptive)
+//   {
+//     if (smp)
+//     {
+//       if (old_cpu != CPU::id())
+//         reschedule(old_cpu);
+//       if (new_cpu != CPU::id())
+//         reschedule(new_cpu);
+//     }
+//     else
+//       reschedule();
+//   }
+
+//   unlock();
+// }
 
 int Thread::join()
 {
@@ -286,9 +288,11 @@ void Thread::sleep(Queue *q)
   prev->_waiting = q;
   q->insert(&prev->_link);
 
-  // if (Criterion::collecting) {
-  //         prev->criterion().collect();
-  //     }
+  prev->_waiting_count++;
+
+  if(prev->_waiting_count > IO_COUNT) {
+    prev->_type = IO;
+  }
 
   Thread *next = _scheduler.chosen();
 
