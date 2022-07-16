@@ -66,7 +66,8 @@ public:
     static const unsigned int current_queue = 1; // starts all threads with priority
 
     // for PMS
-    static const unsigned int QUEUES = CPU::cores(); // each core has its own list
+    // static const unsigned int QUEUES = CPU::cores(); // each core has its own list
+    static const unsigned int QUEUES = 4; // each core has its own list
 
 
     // Runtime Statistics (for policies that don't use any; that´s why its a union)
@@ -243,11 +244,11 @@ public:
     template <typename ... Tn>
     PMS(int p = NORMAL, Tn & ... an): Priority(p) { }
 
-    unsigned int current_queue;
+    // unsigned int current_queue;
 
     operator const volatile int() const volatile {
         // maps the proccess to first or second half, depending on the current_queue
-        return _priority * current_queue;
+        return _priority * current_queue();
     }
 
     // static unsigned int current_head() { return CPU::id(); }
@@ -259,7 +260,7 @@ public:
     static unsigned int queue() { return 0;}
 
     void improvePriority();
-}
+};
 
 __END_SYS
 
