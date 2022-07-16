@@ -16,7 +16,8 @@ Scheduler_Timer *Thread::_timer;
 Scheduler<Thread> Thread::_scheduler;
 Spin Thread::_lock;
 
-int IO_COUNT=1;
+// for PMS scheduler
+int IO_COUNT = 1;
 
 void Thread::constructor_prologue(unsigned int stack_size)
 {
@@ -288,9 +289,10 @@ void Thread::sleep(Queue *q)
   prev->_waiting = q;
   q->insert(&prev->_link);
 
+  // if process enters waiting, we improve its priority (process that wait more should have their priority increased)
+  prev->criterion().improvePriority();
   prev->_waiting_count++;
-
-  if(prev->_waiting_count > IO_COUNT) {
+  if(prev->_waiting_count >= IO_COUNT) {
     prev->_type = IO;
   }
 

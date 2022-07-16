@@ -241,14 +241,14 @@ public:
     static const bool preemptive = false;
 public:
     template <typename ... Tn>
-    LOST(int p = NORMAL, Tn & ... an): Priority(p) { }
+    PMS(int p = NORMAL, Tn & ... an): Priority(p) { }
 
-    // unsigned int current_queue;
+    unsigned int current_queue;
 
-    // operator const volatile int() const volatile {
-    //     // maps the proccess to first or second half, depending on the current_queue
-    //     return _priority * current_queue;
-    // }
+    operator const volatile int() const volatile {
+        // maps the proccess to first or second half, depending on the current_queue
+        return _priority * current_queue;
+    }
 
     // static unsigned int current_head() { return CPU::id(); }
 
@@ -257,6 +257,8 @@ public:
 
     // TODO change method to return the queue in which the object currently resides.
     static unsigned int queue() { return 0;}
+
+    void improvePriority();
 }
 
 __END_SYS
