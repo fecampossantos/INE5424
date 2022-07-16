@@ -17,7 +17,7 @@ Scheduler<Thread> Thread::_scheduler;
 Spin Thread::_lock;
 
 // for PMS scheduler
-int IO_COUNT = 1;
+volatile unsigned int IO_COUNT = 1;
 
 void Thread::constructor_prologue(unsigned int stack_size)
 {
@@ -293,7 +293,7 @@ void Thread::sleep(Queue *q)
   prev->criterion().improvePriority();
   prev->_waiting_count++;
   if(prev->_waiting_count >= IO_COUNT) {
-    prev->_type = IO;
+    prev->_type = IO_BOUND;
   }
 
   Thread *next = _scheduler.chosen();
