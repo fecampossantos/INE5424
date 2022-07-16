@@ -216,30 +216,44 @@ public:
 // Partitioned Multicore Scheduler
 /*
 In this Partitioned Multicore Scheduler, we will separate the M cores in 3 groups:
-- Group 1 will be responsible for xx tasks
-- Group 2 will be responsible for xx tasks
-- Group 3 will be responsible for xx tasks
+- Group 1 will be responsible for IO tasks -> they are more preempted, aka, enter SLEEP more often
+- Group 2 will be responsible for CPU (math) tasks
 
 when an interrupt is received, depending on the task type, the thread will be assigned to
 a queue on that group's core
+
+TO USE SCHEDULING MULTILIST:
+// Doubly-Linked, Scheduling Multilist
+// Besides declaring "Criterion", objects subject to scheduling policies that
+// use the Multilist must export the QUEUES constant to indicate the number of
+// sublists in the list, the current_queue() class method to designate the
+// queue to which the current operation applies, and the queue() method to
+// return the queue in which the object currently resides.
+
 */
-class PMS: public RR
+class PMS: public Priority
 {
 public:
     static const unsigned int HEADS = Traits<Machine>::CPUS;
-    static const bool switching = true;
+
+    static const bool timed = true;
+    static const bool dynamic = true;
+    static const bool preemptive = false;
 public:
     template <typename ... Tn>
-    LOST(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
+    LOST(int p = NORMAL, Tn & ... an): Priority(p) { }
 
-    unsigned int current_queue;
+    // unsigned int current_queue;
 
-    operator const volatile int() const volatile {
-        // maps the proccess to first or second half, depending on the current_queue
-        return _priority * current_queue;
-    }
+    // operator const volatile int() const volatile {
+    //     // maps the proccess to first or second half, depending on the current_queue
+    //     return _priority * current_queue;
+    // }
 
-    static unsigned int current_head() { return CPU::id(); }
+    // static unsigned int current_head() { return CPU::id(); }
+
+    // designate the queue to which the current operation applies
+    static unsigned int current_queue() { return CPU::id(); }
 
     // TODO change method to return the queue in which the object currently resides.
     static unsigned int queue() { return 0;}
