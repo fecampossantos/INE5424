@@ -18,6 +18,7 @@ public:
         db<Init>(TRC) << "Init_System()" << endl;
 
         CPU::smp_barrier();
+        db<Init>(TRC) << "post barrier" << endl;
 
         // Only the bootstrap CPU runs INIT_SYSTEM fully
         if(CPU::id() == 0) {
