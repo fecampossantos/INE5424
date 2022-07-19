@@ -50,6 +50,7 @@ int main()
     cons->join();
 
     cout << "The end!" << endl;
+    cout << "producer_consumer done!" << endl;
 
     delete cons;
 

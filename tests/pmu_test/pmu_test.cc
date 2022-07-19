@@ -71,6 +71,8 @@ int main()
     PMU::reset(4);
     cout << " done!" << endl;
     print_channels();
+    cout << "pmu_test done!" << endl;
+
 
     return 0;
 }
