@@ -133,7 +133,7 @@ Thread::~Thread()
 
 //  if (preemptive)
 //  {
-//    if (smp)
+//    if (Traits<System>::multicore)
 //    {
 //      if (old_cpu != CPU::id())
 //        reschedule(old_cpu);
@@ -355,7 +355,7 @@ void Thread::reschedule()
 void Thread::reschedule(unsigned int cpu)
 {
   assert(locked()); // locking handled by caller
-  if (!smp || (cpu == CPU::id()))
+  if (!Traits<System>::multicore || (cpu == CPU::id()))
     reschedule();
   else
   {
@@ -376,7 +376,7 @@ void Thread::time_slicer(IC::Interrupt_Id i)
     
     if (Criterion::switching) {
         Thread * prev = running(); 
-        if(prev->criterion()._switch()) {
+        if(prev->criterion().swap_queues()) {
             db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << ")" << endl;
         }
     }
@@ -410,7 +410,7 @@ void Thread::dispatch(Thread *prev, Thread *next, bool charge)
     }
     db<Thread>(INF) << "Thread::dispatch:next={" << next << ",ctx=" << *next->_context << "}" << endl;
 
-    if (smp)
+    if (Traits<System>::multicore)
       _lock.release();
 
     // The non-volatile pointer to volatile pointer to a non-volatile context is correct
@@ -419,7 +419,7 @@ void Thread::dispatch(Thread *prev, Thread *next, bool charge)
     // disrupting the context (it doesn't make a difference for Intel, which already saves
     // parameters on the stack anyway).
     CPU::switch_context(const_cast<Context **>(&prev->_context), next->_context);
-    if (smp)
+    if (Traits<System>::multicore)
       _lock.acquire();
   }
 }
