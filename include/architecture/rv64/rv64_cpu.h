@@ -58,7 +58,7 @@ public:
         TVM             = 1 << 20,      // Trap Virtual Memory makes SATP inaccessible in supervisor mode
         TW              = 1 << 21,      // Timeout Wait for WFI outside machine mode
         TSR             = 1 << 22,      // Trap SRet in supervisor mode
-        SD              = 1L<< 63      // Status Dirty = (FS | XS)
+        SD              = 1 << 31,      // Status Dirty = (FS | XS)
     };
 
     // Interrupt-Enable, Interrupt-Pending and Machine Cause Registers ([m|s]ie, [m|s]ip, and [m|s]cause when interrupt bit is set)
@@ -217,7 +217,7 @@ public:
     static Reg fr() { Reg r; ASM("mv %0, a0" :  "=r"(r)); return r; }
     static void fr(Reg r) {  ASM("mv a0, %0" : : "r"(r) :); }
 
-    static unsigned int id() { return multicore ? CPU::mhartid() : 0; }
+    static unsigned int id() { CPU::mhartid() ; }
     static unsigned int cores() { return Traits<Build>::CPUS; }
 
     static void smp_barrier(unsigned long cores = CPU::cores()) { CPU_Common::smp_barrier<&finc>(cores, id()); }
