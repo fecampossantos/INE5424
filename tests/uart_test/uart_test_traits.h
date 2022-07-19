@@ -15,13 +15,16 @@ template<> struct Traits<Build>: public Traits_Tokens
     static const unsigned int MODEL = SiFive_U;
         static const unsigned int CPUS = 4;
     static const unsigned int NODES = 1; // (> 1 => NETWORKING)
-    static const unsigned int EXPECTED_SIMULATION_TIME = 60; // s (0 => not simulated)
+    static const unsigned int EXPECTED_SIMULATION_TIME = 20; // s (0 => not simulated)
 
     // Default flags
     static const bool enabled = true;
     static const bool monitored = true;
     static const bool debugged = true;
     static const bool hysterically_debugged = false;
+    
+    // static const bool multithread = (Traits<Build>::CPUS > 1) || (Traits<Application>::MAX_THREADS > 1);
+    // static const bool multicore = (Traits<Build>::CPUS > 1) && multithread;
 
     // Default aspects
     typedef ALIST<> ASPECTS;

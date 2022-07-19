@@ -24,12 +24,19 @@ class Scheduling_Criterion_Common
 
 public:
     // Priorities
+    // enum : int {
+    //     MAIN   = 0,
+    //     HIGH   = 1,
+    //     NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
+    //     LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
+    //     IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
+    // };
     enum : int {
         MAIN   = 0,
-        HIGH   = 1,
-        NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
-        LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
-        IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
+        HIGH   = 100,
+        NORMAL = 120,
+        LOW    = 130,
+        IDLE   = 281
     };
 
     // Constructor helpers

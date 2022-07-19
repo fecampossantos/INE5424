@@ -45,9 +45,10 @@ public:
         INT_GPIOD       = UNSUPPORTED_INTERRUPT,
         INT_GPIOE       = UNSUPPORTED_INTERRUPT,
         INT_GPIOF       = UNSUPPORTED_INTERRUPT,
-        INT_ADC0        = UNSUPPORTED_INTERRUPT,
-        INT_RESCHEDULER = UNSUPPORTED_INTERRUPT
+        INT_ADC0        = UNSUPPORTED_INTERRUPT
     };
+
+//INT_RESCHEDULER = UNSUPPORTED_INTERRUPT -> removed from enum above
 
 protected:
     IC_Common() {}
