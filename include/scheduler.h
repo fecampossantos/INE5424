@@ -24,19 +24,12 @@ class Scheduling_Criterion_Common
 
 public:
     // Priorities
-    // enum : int {
-    //     MAIN   = 0,
-    //     HIGH   = 1,
-    //     NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
-    //     LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
-    //     IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
-    // };
     enum : int {
         MAIN   = 0,
-        HIGH   = 100,
-        NORMAL = 120,
-        LOW    = 130,
-        IDLE   = 281
+        HIGH   = 1,
+        NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
+        LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
+        IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
     };
 
     // Constructor helpers
@@ -263,8 +256,8 @@ public:
     // designate the queue to which the current operation applies
     static unsigned int current_queue() { return CPU::id(); }
 
-    // TODO change method to return the queue in which the object currently resides.
-    static unsigned int queue() { return 0;}
+    // return the queue in which the object currently resides 
+    static unsigned int queue() { return 1;}
 
     void improvePriority();
 };
