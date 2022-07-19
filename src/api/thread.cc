@@ -93,66 +93,66 @@ Thread::~Thread()
   delete _stack;
 }
 
-// void Thread::priority(const Criterion & c)
-//{
-//     lock();
-//
-//     db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
-//
-//     if(_state != RUNNING) { // reorder the scheduling queue
-//         _scheduler.remove(this);
-//         _link.rank(c);
-//         _scheduler.insert(this);
-//     } else {
-//        _link.rank(c);
-//     }
-//
-//     if(preemptive)
-//         reschedule();
-//
-//     unlock();
-// }
-
-void Thread::priority(const Criterion &c)
+ void Thread::priority(const Criterion & c)
 {
-  lock();
+     lock();
 
-  db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+     db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
 
-  unsigned int old_cpu = _link.rank().queue();
-  unsigned int new_cpu = c.queue();
+     if(_state != RUNNING) { // reorder the scheduling queue
+         _scheduler.remove(this);
+         _link.rank(c);
+         _scheduler.insert(this);
+     } else {
+        _link.rank(c);
+     }
 
-  if (_state != RUNNING)
-  { // reorder the scheduling queue
-    _scheduler.remove(this);
-    _link.rank(c);
-    _scheduler.insert(this);
-  }
-  else
-    _link.rank(c);
+    if(preemptive)
+         reschedule();
 
-  if (preemptive)
-  {
-    if (smp)
-    {
-      if (old_cpu != CPU::id())
-        reschedule(old_cpu);
-      if (new_cpu != CPU::id())
-        reschedule(new_cpu);
-    }
-    else
-      reschedule();
-  }
+     unlock();
+ }
 
-  unlock();
-}
+//void Thread::priority(const Criterion &c)
+//{
+//  lock();
+//
+//  db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+
+//  unsigned int old_cpu = _link.rank().queue();
+//  unsigned int new_cpu = c.queue();
+
+//  if (_state != RUNNING)
+//  { // reorder the scheduling queue
+//    _scheduler.remove(this);
+//    _link.rank(c);
+//    _scheduler.insert(this);
+//  }
+//  else
+//    _link.rank(c);
+
+//  if (preemptive)
+//  {
+//    if (smp)
+//    {
+//      if (old_cpu != CPU::id())
+//        reschedule(old_cpu);
+//      if (new_cpu != CPU::id())
+//        reschedule(new_cpu);
+//    }
+//    else
+//      reschedule();
+//  }
+
+//  unlock();
+//}
 
 int Thread::join()
 {
   lock();
 
   db<Thread>(TRC) << "Thread::join(this=" << this << ",state=" << _state << ")" << endl;
-
+  db<Thread>(TRC) << reinterpret_cast<void *>(_stack) << endl;
   // Precondition: no Thread::self()->join()
   assert(running() != this);
 
@@ -286,9 +286,9 @@ void Thread::sleep(Queue *q)
   prev->_waiting = q;
   q->insert(&prev->_link);
 
-  // if (Criterion::collecting) {
-  //         prev->criterion().collect();
-  //     }
+    if (Criterion::collecting) {
+        prev->criterion().collect();
+    }
 
   Thread *next = _scheduler.chosen();
 
@@ -321,15 +321,12 @@ void Thread::wakeup_all(Queue *q)
 
   if (!q->empty())
   {
-    assert(Criterion::QUEUES <= sizeof(unsigned int) * 8);
-    // unsigned int cpus = 0;
     while (!q->empty())
     {
       Thread *t = q->remove()->object();
       t->_state = READY;
       t->_waiting = 0;
       _scheduler.resume(t);
-      // cpus |= 1 << t->_link.rank().queue();
     }
 
     if (preemptive)
@@ -339,15 +336,20 @@ void Thread::wakeup_all(Queue *q)
 
 void Thread::reschedule()
 {
-  if (!Criterion::timed || Traits<Thread>::hysterically_debugged)
-    db<Thread>(TRC) << "Thread::reschedule()" << endl;
+    if(!Criterion::timed || Traits<Thread>::hysterically_debugged)
+        db<Thread>(TRC) << "Thread::reschedule()" << endl;
 
-  assert(locked()); // locking handled by caller
 
-  Thread *prev = running();
-  Thread *next = _scheduler.choose();
+    // if (!locked()) {
+    //     lock();
+    // }
+    
+    // assert(locked()); // locking handled by caller
 
-  dispatch(prev, next);
+    Thread * prev = running();
+    Thread * next = _scheduler.choose();
+
+    dispatch(prev, next);
 }
 
 void Thread::reschedule(unsigned int cpu)
@@ -370,18 +372,17 @@ void Thread::rescheduler(IC::Interrupt_Id i)
 
 void Thread::time_slicer(IC::Interrupt_Id i)
 {
-  lock();
+    lock();
+    
+    if (Criterion::switching) {
+        Thread * prev = running(); 
+        if(prev->criterion()._switch()) {
+            db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << ")" << endl;
+        }
+    }
 
-  if (Criterion::switching)
-  {
-    Thread *prev = running();
-
-    //calls function to switch queues on scheduler - for LOST
-    prev->criterion().swap_queues();
-  }
-
-  reschedule();
-  unlock();
+    reschedule();
+    unlock();
 }
 
 void Thread::dispatch(Thread *prev, Thread *next, bool charge)
@@ -435,8 +436,8 @@ int Thread::idle()
     CPU::int_enable();
     CPU::halt();
 
-    if (_scheduler.schedulables() > 0) // A thread might have been woken up by another CPU
-      yield();
+    //if (_scheduler.schedulables() > 0) // A thread might have been woken up by another CPU
+      //yield();
   }
 
   CPU::int_disable();

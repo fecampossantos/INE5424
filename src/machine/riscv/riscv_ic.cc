@@ -119,9 +119,10 @@ void IC::exception(Interrupt_Id id)
 
     db<IC, System>(WRN) << endl;
 
-    if(Traits<Build>::hysterically_debugged)
-        db<IC, System>(ERR) << "Exception stoped execution due to hysterically debuggeing!" << endl;
-
+    if(Traits<Build>::hysterically_debugged){
+        //db<IC, System>(ERR) << "Exception stoped execution due to hysterically debuggeing!" << endl;
+	Machine::panic();
+    }
     CPU::fr(sizeof(void *)); // tell CPU::Context::pop(true) to perform PC = PC + [4|8] on return
 }
 

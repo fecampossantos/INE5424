@@ -38,12 +38,11 @@ protected:
   // static const unsigned int STACK_SIZE = Traits<Application>::STACK_SIZE;
 
   // added for P3
-  static const bool smp = Traits<Thread>::smp;
-  static const bool monitored = Traits<Thread>::monitored;
+  //static const bool smp = Traits<Thread>::smp;
+  //static const bool monitored = Traits<Thread>::monitored;
 
   // added for P3
   static const unsigned int QUANTUM = Traits<Thread>::QUANTUM;
-  static const unsigned int USER_STACK_SIZE = Traits<Application>::STACK_SIZE;
   static const unsigned int STACK_SIZE = Traits<Application>::STACK_SIZE;
 
   typedef CPU::Log_Addr Log_Addr;
@@ -134,8 +133,8 @@ protected:
     CPU::int_enable();
   }
 
-  static volatile bool locked() { return (smp)?  _lock.taken() : CPU::int_disabled();}
-
+  //static volatile bool locked() { return (smp)?  _lock.taken() : CPU::int_disabled();}
+  static bool locked() { return CPU::int_disabled(); }
   static void sleep(Queue *q);
   static void wakeup(Queue *q);
   static void wakeup_all(Queue *q);

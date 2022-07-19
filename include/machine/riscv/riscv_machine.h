@@ -36,13 +36,14 @@ public:
 
 private:
     static void smp_barrier_init(unsigned int n_cpus) {
-        db<Machine>(TRC) << "SMP::init()" << endl;
+	// maybe we will use this for p5
+        //db<Machine>(TRC) << "SMP::init()" << endl;
 
-        IC::int_vector(CLINT::IRQ_MAC_SOFT, IC::ipi_eoi);
-        Machine::delay(100000);
-        for (unsigned int i = 1; i < n_cpus; i++) {
-            IC::ipi(i, CLINT::IRQ_MAC_SOFT);
-        }
+        //IC::int_vector(CLINT::IRQ_MAC_SOFT, IC::ipi_eoi);
+        //Machine::delay(100000);
+        //for (unsigned int i = 1; i < n_cpus; i++) {
+        //    IC::ipi(i, CLINT::IRQ_MAC_SOFT);
+        //}
     }
 
     static void pre_init(System_Info * si){};
