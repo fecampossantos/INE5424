@@ -239,38 +239,75 @@ TO USE SCHEDULING MULTILIST:
 // return the queue in which the object currently resides.
 
 */
-class PMS: public Priority
+// class PMS: public Priority
+// {
+// public:
+//     static const unsigned int HEADS = Traits<Machine>::CPUS;
+
+//     static const bool timed = true;
+//     static const bool dynamic = true;
+//     static const bool preemptive = false;
+// public:
+//     template <typename ... Tn>
+//     // PMS(int p = NORMAL, Tn & ... an): Priority(p), current_queue{1}  { }
+//     PMS(int p = NORMAL, Tn & ... an): Priority(p){ }
+
+//     // unsigned int current_queue;
+
+//     operator const volatile int() const volatile {
+//         // maps the proccess to first or second half, depending on the current_queue
+//         return _priority * current_queue();
+//     }
+
+//     // static unsigned int current_head() { return CPU::id(); }
+
+//     // designate the queue to which the current operation applies
+//     // static unsigned int current_queue() { return CPU::id(); }
+//     static unsigned int current_queue() { return 1; }
+
+//     // return the queue in which the object currently resides 
+//     // static unsigned int queue() { return 1;}
+
+//     void improvePriority();
+// };
+class PMS: public RR
 {
 public:
     static const unsigned int HEADS = Traits<Machine>::CPUS;
-
-    static const bool timed = true;
-    static const bool dynamic = true;
-    static const bool preemptive = false;
+    static const bool switching = true;
 public:
     template <typename ... Tn>
-    // PMS(int p = NORMAL, Tn & ... an): Priority(p), current_queue{1}  { }
-    PMS(int p = NORMAL, Tn & ... an): Priority(p){ }
+    PMS(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
 
-    // unsigned int current_queue;
+    unsigned int current_queue;
 
-    operator const volatile int() const volatile {
-        // maps the proccess to first or second half, depending on the current_queue
-        return _priority * current_queue();
+
+    static unsigned int current_head() { return CPU::id(); }
+    // static unsigned int current_queue() { return current_queue; }
+
+    bool swap_queues() {
+        // MAIN and IDLE should always be kept on the first queue
+        if (_priority == MAIN || _priority == IDLE) return false;
+        
+        if(current_queue == 1) {
+            current_queue = 2;
+            return true;
+        } else {
+            current_queue = 1;
+            return false;
+        }
     }
 
-    // static unsigned int current_head() { return CPU::id(); }
-
-    // designate the queue to which the current operation applies
-    // static unsigned int current_queue() { return CPU::id(); }
-    static unsigned int current_queue() { return 1; }
-
-    // return the queue in which the object currently resides 
-    // static unsigned int queue() { return 1;}
-
-    void improvePriority();
+    bool improvePriority()
+    {
+        if ((_priority > HIGH) && (_priority <= NORMAL))
+        {
+            // Increase priority
+            _priority--;
+        }
+        return true;
+    }
 };
-
 
 __END_SYS
 
@@ -288,9 +325,12 @@ public Multihead_Scheduling_List<T> {};
 
 
 // PMS
+// template<typename T>
+// class Scheduling_Queue<T, PMS>:
+// public Scheduling_Multilist<T> {};
 template<typename T>
 class Scheduling_Queue<T, PMS>:
-public Scheduling_Multilist<T> {};
+public Multihead_Scheduling_List<T> {};
 
 __END_UTIL
 
