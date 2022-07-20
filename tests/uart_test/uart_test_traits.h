@@ -108,7 +108,7 @@ template<> struct Traits<System>: public Traits<Build>
     static const unsigned int mode = Traits<Build>::MODE;
     static const bool multithread = (Traits<Application>::MAX_THREADS > 1);
     static const bool multiheap = Traits<Scratchpad>::enabled;
-
+    static const bool multicore = (Traits<Build>::CPUS > 1) && multithread;
     static const unsigned long LIFE_SPAN = 1 * YEAR; // s
     static const unsigned int DUTY_CYCLE = 1000000; // ppm
 
@@ -123,6 +123,7 @@ template<> struct Traits<Thread>: public Traits<Build>
     static const bool enabled = Traits<System>::multithread;
     static const bool trace_idle = hysterically_debugged;
     static const bool simulate_capacity = false;
+    static const bool smp = Traits<System>::multicore;
     static const unsigned int QUANTUM = 1000; // us
 
     typedef RR Criterion;
