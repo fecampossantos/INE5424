@@ -126,7 +126,8 @@ template<> struct Traits<Thread>: public Traits<Build>
     static const bool smp = Traits<System>::multicore;
     static const unsigned int QUANTUM = 1000; // us
 
-    typedef RR Criterion;
+    // typedef GRR Criterion;
+    typedef LOST Criterion;
 };
 
 template<> struct Traits<Scheduler<Thread>>: public Traits<Build>

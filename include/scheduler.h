@@ -193,12 +193,9 @@ public:
 
     unsigned int current_queue;
 
-    operator const volatile int() const volatile {
-        // maps the proccess to first or second half, depending on the current_queue
-        return _priority * current_queue;
-    }
 
     static unsigned int current_head() { return CPU::id(); }
+    // static unsigned int current_queue() { return current_queue; }
 
     bool swap_queues() {
         // MAIN and IDLE should always be kept on the first queue
@@ -211,6 +208,16 @@ public:
             current_queue = 1;
             return false;
         }
+    }
+
+    bool improvePriority()
+    {
+        if ((_priority > HIGH) && (_priority <= NORMAL))
+        {
+            // Increase priority
+            _priority--;
+        }
+        return true;
     }
 };
 
@@ -242,7 +249,8 @@ public:
     static const bool preemptive = false;
 public:
     template <typename ... Tn>
-    PMS(int p = NORMAL, Tn & ... an): Priority(p) { }
+    // PMS(int p = NORMAL, Tn & ... an): Priority(p), current_queue{1}  { }
+    PMS(int p = NORMAL, Tn & ... an): Priority(p){ }
 
     // unsigned int current_queue;
 
@@ -254,13 +262,15 @@ public:
     // static unsigned int current_head() { return CPU::id(); }
 
     // designate the queue to which the current operation applies
-    static unsigned int current_queue() { return CPU::id(); }
+    // static unsigned int current_queue() { return CPU::id(); }
+    static unsigned int current_queue() { return 1; }
 
     // return the queue in which the object currently resides 
-    static unsigned int queue() { return 1;}
+    // static unsigned int queue() { return 1;}
 
     void improvePriority();
 };
+
 
 __END_SYS
 
@@ -275,6 +285,7 @@ public Multihead_Scheduling_List<T> {};
 template<typename T>
 class Scheduling_Queue<T, LOST>:
 public Multihead_Scheduling_List<T> {};
+
 
 // PMS
 template<typename T>

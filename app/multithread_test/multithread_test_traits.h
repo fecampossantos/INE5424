@@ -125,7 +125,8 @@ template<> struct Traits<Thread>: public Traits<Build>
     static const unsigned int QUANTUM = 10000; // us
 
     // typedef LOST Criterion;
-    typedef PMS Criterion;
+// typedef LOST Criterion;
+    typedef LOST Criterion;
 };
 
 template<> struct Traits<Scheduler<Thread>>: public Traits<Build>
