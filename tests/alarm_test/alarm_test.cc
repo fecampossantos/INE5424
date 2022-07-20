@@ -30,6 +30,7 @@ int main()
     Alarm::delay(2000000 * (iterations + 2));
 
     cout << "I'm done, bye!" << endl;
+    cout << "alarm_test done!" << endl;
 
     return 0;
 }

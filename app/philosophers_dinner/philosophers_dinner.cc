@@ -68,6 +68,8 @@ int main()
         delete phil[i];
 
     cout << "The end!" << endl;
+    cout << "philosophers_dinner done!" << endl;
+
 
     return 0;
 }

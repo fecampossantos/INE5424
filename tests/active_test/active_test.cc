@@ -58,6 +58,7 @@ int main()
     delete b;
 
     cout << "I'm also done, bye!" << endl;
+    cout << "active_test done!" << endl;
 
     return 0;
 }
