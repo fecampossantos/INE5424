@@ -386,26 +386,22 @@ void Thread::rescheduler(IC::Interrupt_Id i)
 
 void Thread::time_slicer(IC::Interrupt_Id i)
 {
-<<<<<<< HEAD
   lock();
 
   reschedule();
   unlock();
-  == == == =
-               lock();
 
-  if (Criterion::switching)
-  {
-    Thread *prev = running();
-    if (prev->criterion().swap_queues())
-    {
-      db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << ")" << endl;
-    }
-  }
+  // if (Criterion::switching)
+  // {
+  //   Thread *prev = running();
+  //   if (prev->criterion().swap_queues())
+  //   {
+  //     db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << ")" << endl;
+  //   }
+  // }
 
-  reschedule();
-  unlock();
->>>>>>> p3
+  // reschedule();
+  // unlock();
 }
 
 void Thread::dispatch(Thread *prev, Thread *next, bool charge)
