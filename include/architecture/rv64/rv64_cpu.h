@@ -217,7 +217,7 @@ public:
     static Reg fr() { Reg r; ASM("mv %0, a0" :  "=r"(r)); return r; }
     static void fr(Reg r) {  ASM("mv a0, %0" : : "r"(r) :); }
 
-    static unsigned int id() { return CPU::mhartid() ; }
+    static unsigned int id() { CPU::mhartid() ; }
     static unsigned int cores() { return Traits<Build>::CPUS; }
 
     static void smp_barrier(unsigned long cores = CPU::cores()) { CPU_Common::smp_barrier<&finc>(cores, id()); }
