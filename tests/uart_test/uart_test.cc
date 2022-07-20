@@ -29,7 +29,7 @@ int main()
 
         uart.put(c);
     }
-    cout << "segment_test done!" << endl;
+    // cout << "segment_test done!" << endl;
     
 //    uart.flush();
 
