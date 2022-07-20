@@ -193,6 +193,11 @@ public:
 
     unsigned int current_queue;
 
+    operator const volatile int() const volatile {
+        // maps the proccess to first or second half, depending on the current_queue
+        return _priority * current_queue;
+    }
+
 
     static unsigned int current_head() { return CPU::id(); }
     // static unsigned int current_queue() { return current_queue; }
@@ -280,7 +285,6 @@ public:
     PMS(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
 
     unsigned int current_queue;
-
 
     static unsigned int current_head() { return CPU::id(); }
     // static unsigned int current_queue() { return current_queue; }
