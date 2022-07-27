@@ -153,7 +153,7 @@ ifeq ($(ARCH),armv7)
 cortex_CC_FLAGS		:= -mcpu=cortex-a53 -mfloat-abi=hard -mfpu=vfp
 cortex_EMULATOR		= qemu-system-aarch64 $(QEMU_DEBUG) -M raspi2 -cpu cortex-a53 -smp 4 -m 1G -serial null -serial mon:stdio -nographic -no-reboot $(BOOT_ROM) -kernel 
 else
-cortex_CC_FLAGS		:= -march=armv8.6-a -mabi=lp64 -Wno-attributes
+cortex_CC_FLAGS		:= -mcpu=cortex-a53 -mabi=lp64 -Wno-attributes
 cortex_EMULATOR		= qemu-system-aarch64 $(QEMU_DEBUG) -M raspi3 -cpu cortex-a53 -smp 4 -m 1G -serial null -serial mon:stdio -nographic -no-reboot $(BOOT_ROM) -kernel 
 endif
 cortex_AS_FLAGS		:= -mcpu=cortex-a53
@@ -197,7 +197,7 @@ riscv_CC_FLAGS		:= -march=rv32gc -mabi=ilp32f -Wl, -mno-relax
 riscv_AS_FLAGS		:= -march=rv32gc -mabi=ilp32f
 riscv_LD_FLAGS		:= -m elf32lriscv_ilp32f --no-relax
 riscv_EMULATOR		= qemu-system-riscv32 $(QEMU_DEBUG) -machine sifive_e -m $(MEM_SIZE)k -serial mon:stdio -bios none -nographic -no-reboot $(BOOT_ROM) -kernel 
-riscv_DEBUGGER		:= $(COMP_PREFIX)gdb
+riscv_DEBUGGER		:= gdb-multiarch -ex "set arch riscv:rv32"
 riscv_FLASHER		:= 
 riscv_MAGIC		:= --nmagic
 riscv_CODE_NAME		:= .init
@@ -210,14 +210,15 @@ ifeq ($(ARCH),rv64)
 riscv_CC_FLAGS		:= -march=rv64gc -mabi=lp64d -Wl, -mno-relax -mcmodel=medany
 riscv_AS_FLAGS		:= -march=rv64gc -mabi=lp64d
 riscv_LD_FLAGS		:= -m elf64lriscv_lp64f --no-relax
-riscv_EMULATOR		= qemu-system-riscv64 $(QEMU_DEBUG) -machine sifive_u -smp $(CPUS) -m $(MEM_SIZE)k -serial mon:stdio -bios none -nographic -no-reboot $(BOOT_ROM) -kernel 
+riscv_EMULATOR		= qemu-system-riscv64 $(QEMU_DEBUG) -machine sifive_u -cpu rv64 -smp $(CPUS) -m $(MEM_SIZE)k -serial mon:stdio -bios none -nographic -no-reboot $(BOOT_ROM) -kernel 
 else
 riscv_CC_FLAGS      := -march=rv32gc -mabi=ilp32d -Wl, -mno-relax
 riscv_AS_FLAGS      := -march=rv32gc -mabi=ilp32d
 riscv_LD_FLAGS      := -m elf32lriscv_ilp32f --no-relax
 riscv_EMULATOR		= qemu-system-riscv32 $(QEMU_DEBUG) -machine virt -cpu rv32 -smp $(CPUS) -m $(MEM_SIZE)k -serial mon:stdio -bios none -nographic -no-reboot $(BOOT_ROM) -kernel 
 endif 
-riscv_DEBUGGER		:= $(COMP_PREFIX)gdb
+# riscv_DEBUGGER		:= $(COMP_PREFIX)gdb
+riscv_DEBUGGER		:= gdb-multiarch
 riscv_FLASHER		:= 
 riscv_MAGIC		:= --nmagic
 riscv_CODE_NAME		:= .init

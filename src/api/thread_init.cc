@@ -14,13 +14,13 @@ void Thread::init()
     db<Init, Thread>(TRC) << "Thread::init()" << endl;
 
     // Install an interrupt handler to receive forced reschedules
-    if(smp && (CPU::id() == 0))
-        IC::int_vector(IC::INT_RESCHEDULER, rescheduler);  // if an eoi handler is needed, then it was already installed at IC::init()
+    //if(Traits<Thread>::smp && (CPU::id() == 0))
+        //IC::int_vector(IC::INT_RESCHEDULER, rescheduler);  // if an eoi handler is needed, then it was already installed at IC::init()
 
     CPU::smp_barrier();
 
-    if(smp)
-        IC::enable(IC::INT_RESCHEDULER);
+    //if(Traits<Thread>::smp)
+        //IC::enable(IC::INT_RESCHEDULER);
 
     Criterion::init();
 
@@ -51,8 +51,17 @@ void Thread::init()
     // No more interrupts until we reach init_end
     CPU::int_disable();
 
-    // Transition from CPU-based locking to thread-based locking
+    if (Traits<Thread>::smp) {
+        if (CPU::id() == 0) {
+            IC::int_vector(IC::INT_RESCHEDULER, rescheduler);
+        }
+
+        IC::enable(IC::INT_RESCHEDULER);
+    }
+    
     CPU::smp_barrier();
+    
+    // Transition from CPU-based locking to thread-based locking
     This_Thread::not_booting();
 }
 

@@ -13,10 +13,50 @@
 
 __BEGIN_SYS
 
-class RV64_PMU: public RV32_PMU
+class RV64_PMU: public PMU_Common
 {
 private:
     typedef CPU::Reg Reg;
+
+protected:
+    static const unsigned int COUNTERS = 32;
+    static const unsigned int CHANNELS = 32;
+    static const unsigned int FIXED    = 3;
+
+public:
+    enum {
+        // Instruction Commit events (mhpmeventX[7:0] = 0)
+        CYCLES                                          = 0,
+        TIME                                            = 1,
+        INSTRUCTIONS_RETIRED                            = 2,
+        EXCEPTIONS_TAKEN                                = 1 << 8,
+        INTEGER_LOAD_INSTRUCTIONS_RETIRED               = 1 << 9,
+        INTEGER_STORE_INSTRUCTIONS_RETIRED              = 1 << 10,
+        ATOMIC_MEMEMORY_INSTRUCTIONS_RETIRED            = 1 << 11,
+        SYSTEM_INSTRUCTIONS_RETIRED                     = 1 << 12,
+        INTEGER_ARITHMETIC_INSTRUCTIONS_RETIRED         = 1 << 13,
+        CONDITIONAL_BRANCHES_RETIRED                    = 1 << 14,
+        JAL_INSTRUCTIONS_RETIRED                        = 1 << 15,
+        JALR_INSTRUCTIONS_RETIRED                       = 1 << 16,
+        INTEGER_MULTIPLICATION_INSTRUCTIONS_RETIRED     = 1 << 17,
+        INTEGER_DIVISION_INSTRUCTIONS_RETIRED           = 1 << 18,
+
+        // Microarchitectural events (mhpmeventX[7:0] = 1)
+        LOAD_USE_INTERLOCK                              = 1 <<  8 | 1,
+        LONG_LATENCY_INTERLOCK                          = 1 <<  9 | 1,
+        CSR_READ_INTERLOCK                              = 1 << 10 | 1,
+        INSTRUCTION_CACHE_ITIM_BUSY                     = 1 << 11 | 1,
+        DATA_CACHE_DTIM_BUSY                            = 1 << 12 | 1,
+        BRANCH_DIRECTION_MISPREDICTION                  = 1 << 13 | 1,
+        BRANCH_JUMP_TARGET_MISPREDICTION                = 1 << 14 | 1,
+        PIPELINE_FLUSH_FROM_CSR_WRITE                   = 1 << 15 | 1,
+        PIPELINE_FLUSH_FROM_OTHER_EVENT                 = 1 << 16 | 1,
+        INTEGER_MULTIPLICATION_INTERLOCK                = 1 << 17 | 1,
+
+        // Memory System events (mhpmeventX[7:0] = 2)
+        INSTRUCTION_CACHE_MISS                          = 1 <<  8 | 2,
+        MEMORY_MAPPED_IO_ACCESS                         = 1 <<  9 | 2
+    };
 
 public:
     RV64_PMU() {}
@@ -64,7 +104,7 @@ public:
         write(channel, 0);
     }
 
-    static void init() {}
+    static void init() ;
 
 private:
     static Reg mcounteren(){ Reg reg; ASM("csrr %0, mcounteren" : "=r"(reg) :); return reg;}
@@ -464,8 +504,12 @@ private:
             db<PMU>(WRN) << "PMU::mhpmcounter(c=" << counter << "): counter is read-only!" << endl;
         }
     }
+
+protected:
+    static const Event _events[EVENTS];
 };
 
+#ifndef __rv64_pmu_common_only__
 
 class PMU: public RV64_PMU
 {
@@ -496,6 +540,8 @@ public:
 private:
     static void init() { Engine::init(); }
 };
+
+#endif
 
 __END_SYS
 

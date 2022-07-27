@@ -18,6 +18,7 @@ public:
         db<Init>(TRC) << "Init_System()" << endl;
 
         CPU::smp_barrier();
+        db<Init>(TRC) << "post barrier" << endl;
 
         // Only the bootstrap CPU runs INIT_SYSTEM fully
         if(CPU::id() == 0) {
@@ -62,7 +63,7 @@ public:
 
         if(CPU::id() == 0) {
             // Randomize the Random Numbers Generator's seed
-            if(Traits<Random>::enabled) {
+            if(Traits<Random>::enabled ) {
                 db<Init>(INF) << "Randomizing the Random Numbers Generator's seed." << endl;
                 if(Traits<TSC>::enabled)
                     Random::seed(TSC::time_stamp());

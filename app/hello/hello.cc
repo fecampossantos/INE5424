@@ -7,6 +7,7 @@ OStream cout;
 int main()
 {
     cout << "Hello world!" << endl;
-
+    cout << "hello done!" << endl;
+    
     return 0;
 }

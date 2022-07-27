@@ -5,6 +5,8 @@
 
 #include <architecture/cpu.h>
 
+extern "C" { void _int_leave(); }
+
 __BEGIN_SYS
 
 class CPU: protected CPU_Common
@@ -56,7 +58,7 @@ public:
         TVM             = 1 << 20,      // Trap Virtual Memory makes SATP inaccessible in supervisor mode
         TW              = 1 << 21,      // Timeout Wait for WFI outside machine mode
         TSR             = 1 << 22,      // Trap SRet in supervisor mode
-        SD              = 1L<< 63      // Status Dirty = (FS | XS)
+        SD              = 1 << 31      // Status Dirty = (FS | XS)
     };
 
     // Interrupt-Enable, Interrupt-Pending and Machine Cause Registers ([m|s]ie, [m|s]ip, and [m|s]cause when interrupt bit is set)
@@ -215,7 +217,7 @@ public:
     static Reg fr() { Reg r; ASM("mv %0, a0" :  "=r"(r)); return r; }
     static void fr(Reg r) {  ASM("mv a0, %0" : : "r"(r) :); }
 
-    static unsigned int id() { return multicore ? mhartid() : 0; }
+    static unsigned int id() { return CPU::mhartid() ; }
     static unsigned int cores() { return Traits<Build>::CPUS; }
 
     static void smp_barrier(unsigned long cores = CPU::cores()) { CPU_Common::smp_barrier<&finc>(cores, id()); }
@@ -302,6 +304,7 @@ public:
         return old;
     }
 
+
     static void flush_tlb() {         ASM("sfence.vma"    : :           : "memory"); }
     static void flush_tlb(Reg addr) { ASM("sfence.vma %0" : : "r"(addr) : "memory"); }
 
@@ -329,6 +332,9 @@ public:
         sp -= sizeof(Context);
         Context * ctx = new(sp) Context(entry, exit);
         init_stack_helper(&ctx->_x10, an ...); // x10 is a0
+        sp -= sizeof(Context);
+        ctx = new(sp) Context(&_int_leave, 0); // this context will be popped by switch() to reach _int_leave(), which will activate the thread's context
+        ctx->_x10 = 0; // zero fr() for the pop(true) issued by _int_leave()
         return ctx;
     }
 
@@ -353,7 +359,7 @@ public:
     static void mint_enable()  { ASM("csrsi mstatus, %0" : : "i"(MIE) : "cc"); }
     static void mint_disable() { ASM("csrci mstatus, %0" : : "i"(MIE) : "cc"); }
 
-    static Reg mhartid() { Reg r; ASM("csrr %0, mhartid" : "=r"(r) : : "memory", "cc"); return r & 0x3; }
+    static Reg mhartid() { Reg r; ASM("csrr %0, mhartid" : "=r"(r) : : "memory", "cc"); return r; }
 
     static void mscratch(Reg r)   { ASM("csrw mscratch, %0" : : "r"(r) : "cc"); }
     static Reg  mscratch() { Reg r; ASM("csrr %0, mscratch" :  "=r"(r) : : ); return r; }
@@ -440,7 +446,7 @@ if(interrupt) {
     ASM("       csrr     x3,    mepc            \n"
         "       sd       x3,    0(sp)           \n");   // push MEPC as PC on interrupts
 } else {
-    ASM("       sw       x1,    0(sp)           \n");   // push RA as PC on context switches
+    ASM("       sd      x1,     0(sp)           \n");   // push RA as PC on context switches
 }
 
     ASM("       csrr     x3,  mstatus           \n");

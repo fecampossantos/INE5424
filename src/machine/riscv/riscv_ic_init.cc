@@ -10,6 +10,8 @@ void IC::init()
 {
     db<Init, IC>(TRC) << "IC::init()" << endl;
 
+    CPU::int_disable();
+        
     assert(CPU::int_disabled()); // will be reenabled at Thread::init() by Context::load()
 
     disable(); // will be enabled on demand as handlers are registered
@@ -20,7 +22,7 @@ void IC::init()
 
     // Set all interrupt handlers to int_not()
     for(Interrupt_Id i = EXCS; i < INTS; i++)
-        _int_vector[i] = &int_not;
+        _int_vector[i] = int_not;
 }
 
 __END_SYS

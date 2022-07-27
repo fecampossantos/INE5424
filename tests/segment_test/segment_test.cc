@@ -54,6 +54,8 @@ int main()
     cout << "  done!" << endl;
 
     cout << "I'm done, bye!" << endl;
+    cout << "segment_test done!" << endl;
+
 
     return 0;
 }
