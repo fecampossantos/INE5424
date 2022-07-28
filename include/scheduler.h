@@ -301,12 +301,12 @@ public:
   static unsigned int current_head() { return CPU::id(); }
 
   // return the queue in which the object currently resides
-  static unsigned int queue() { return current_queue; }
+  // unsigned int queue() { return current_queue; }
 
   operator const volatile int() const volatile
   {
     // maps the proccess to first or second half, depending on the current_queue
-    return _priority * current_queue();
+    return _priority * current_queue;
   }
 
   bool swap_queues()
