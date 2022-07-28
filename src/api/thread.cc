@@ -96,11 +96,37 @@ Thread::~Thread()
   delete _stack;
 }
 
+// void Thread::priority(const Criterion &c)
+// {
+//   lock();
+
+//   db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+
+//   if (_state != RUNNING)
+//   { // reorder the scheduling queue
+//     _scheduler.remove(this);
+//     _link.rank(c);
+//     _scheduler.insert(this);
+//   }
+//   else
+//   {
+//     _link.rank(c);
+//   }
+
+//   if (preemptive)
+//     reschedule();
+
+//   unlock();
+// }
+
 void Thread::priority(const Criterion &c)
 {
   lock();
 
   db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+
+  unsigned int old_cpu = _link.rank().queue();
+  unsigned int new_cpu = c.queue();
 
   if (_state != RUNNING)
   { // reorder the scheduling queue
@@ -109,49 +135,23 @@ void Thread::priority(const Criterion &c)
     _scheduler.insert(this);
   }
   else
-  {
     _link.rank(c);
-  }
 
   if (preemptive)
-    reschedule();
+  {
+    if (Traits<System>::multicore)
+    {
+      if (old_cpu != CPU::id())
+        reschedule(old_cpu);
+      if (new_cpu != CPU::id())
+        reschedule(new_cpu);
+    }
+    else
+      reschedule();
+  }
 
   unlock();
 }
-
-// void Thread::priority(const Criterion &c)
-//{
-//   lock();
-//
-//   db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
-
-//  unsigned int old_cpu = _link.rank().queue();
-//  unsigned int new_cpu = c.queue();
-
-//  if (_state != RUNNING)
-//  { // reorder the scheduling queue
-//    _scheduler.remove(this);
-//    _link.rank(c);
-//    _scheduler.insert(this);
-//  }
-//  else
-//    _link.rank(c);
-
-//  if (preemptive)
-//  {
-//    if (Traits<System>::multicore)
-//    {
-//      if (old_cpu != CPU::id())
-//        reschedule(old_cpu);
-//      if (new_cpu != CPU::id())
-//        reschedule(new_cpu);
-//    }
-//    else
-//      reschedule();
-//  }
-
-//  unlock();
-//}
 
 int Thread::join()
 {
@@ -296,7 +296,7 @@ void Thread::sleep(Queue *q)
   {
     prev->criterion().collect();
   }
-  
+
   // if process enters waiting, we improve its priority (process that wait more should have their priority increased)
   prev->criterion().improvePriority();
   prev->_waiting_count++;
@@ -388,20 +388,19 @@ void Thread::time_slicer(IC::Interrupt_Id i)
 {
   lock();
 
-
   // if (Criterion::switching)
   // {
-    // Thread *prev = running();
-    // prev->criterion().swap_queues();
+  // Thread *prev = running();
+  // prev->criterion().swap_queues();
 
-    // if (prev->criterion().swap_queues())
-    // {
-    //   db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << ")" << endl;
-    // }
-  // }
+  if (prev->criterion().swap_queues())
+  {
+    db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << ")" << endl;
+  }
+}
 
-  reschedule();
-  unlock();
+reschedule();
+unlock();
 }
 
 void Thread::dispatch(Thread *prev, Thread *next, bool charge)
