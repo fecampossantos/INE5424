@@ -123,7 +123,7 @@ void Thread::priority(const Criterion &c)
 {
   lock();
 
-  db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
+  // db<Thread>(TRC) << "Thread::priority(this=" << this << ",prio=" << c << ")" << endl;
 
   unsigned int old_cpu = _link.rank().queue();
   unsigned int new_cpu = c.queue();
@@ -392,15 +392,16 @@ void Thread::time_slicer(IC::Interrupt_Id i)
   // {
   // Thread *prev = running();
   // prev->criterion().swap_queues();
+  Thread *prev = running();
 
   if (prev->criterion().swap_queues())
   {
-    db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << ")" << endl;
+    db<Thread>(WRN) << "Swaped thread: " << prev << ", from queue:" << prev->criterion().current_queue << endl;
   }
-}
 
-reschedule();
-unlock();
+
+  reschedule();
+  unlock();
 }
 
 void Thread::dispatch(Thread *prev, Thread *next, bool charge)
