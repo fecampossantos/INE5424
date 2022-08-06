@@ -8,9 +8,10 @@ __BEGIN_SYS
 
 void System::init()
 {
-    if(Traits<Alarm>::enabled)
+    if(Traits<Alarm>::enabled && CPU::id() == 0)
         Alarm::init();
 
+    // These abstractions are initialized by all CPUs
     if(Traits<Thread>::enabled)
         Thread::init();
 }

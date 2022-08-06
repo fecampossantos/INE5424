@@ -24,12 +24,19 @@ class Scheduling_Criterion_Common
 
 public:
     // Priorities
+    // enum : int {
+    //     MAIN   = 0,
+    //     HIGH   = 1,
+    //     NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
+    //     LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
+    //     IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
+    // };
     enum : int {
         MAIN   = 0,
-        HIGH   = 1,
-        NORMAL = (unsigned(1) << (sizeof(int) * 8 - 1)) - 3,
-        LOW    = (unsigned(1) << (sizeof(int) * 8 - 1)) - 2,
-        IDLE   = (unsigned(1) << (sizeof(int) * 8 - 1)) - 1
+        HIGH   = 100,
+        NORMAL = 120,
+        LOW    = 130,
+        IDLE   = 281
     };
 
     // Constructor helpers
@@ -55,11 +62,20 @@ public:
     static const bool charging = false;
     static const bool awarding = false;
     static const bool migrating = false;
+    static const bool switching = false;
     static const bool track_idle = false;
     static const bool task_wide = false;
     static const bool cpu_wide = false;
     static const bool system_wide = false;
-    static const unsigned int QUEUES = 1;
+
+    // for LOST
+    // static const unsigned int QUEUES = 1;
+    static const unsigned int current_queue = 1; // starts all threads with priority
+
+    // for PMS
+    // static const unsigned int QUEUES = CPU::cores(); // each core has its own list
+    static const unsigned int QUEUES = 4; // each core has its own list
+
 
     // Runtime Statistics (for policies that don't use any; that´s why its a union)
     union Statistics {
@@ -93,6 +109,7 @@ public:
     bool collect(bool end = false) { return false; }
     bool charge(bool end = false) { return true; }
     bool award(bool end = false) { return true; }
+    bool swap_queues(bool end = false) { return false; }
 
     volatile Statistics & statistics() { return _statistics; }
 
@@ -132,6 +149,20 @@ public:
     RR(int p = NORMAL, Tn & ... an): Priority(p) {}
 };
 
+// Global Round-Robin
+class GRR: public RR
+{
+public:
+    static const unsigned int HEADS = Traits<Machine>::CPUS;
+
+public:
+    template <typename ... Tn>
+    GRR(int p = NORMAL, Tn & ... an): RR(p) {}
+
+    static unsigned int current_head() { return CPU::id(); }
+};
+
+
 // First-Come, First-Served (FIFO)
 class FCFS: public Priority
 {
@@ -145,6 +176,143 @@ public:
     FCFS(int p = NORMAL, Tn & ... an);
 };
 
+
+// Based on Linux O(1) - old //
+/**
+ * - preemptive
+ * - priority based
+ * - queue 1 [ACTIVE] - main queue, mapped to the first half
+ * - queue 2 [EXPIRED] - mapped to the second half
+ * 
+ * > The scheduler may suffer starvation (the original Linux O(1) also had this problem)
+ * > Nice value was not implemented for this scheduler
+ * > Two separate queues would be closer to the real Linux O(1) scheduler
+ *
+ **/
+class LOST: public RR
+{
+public:
+    static const unsigned int HEADS = Traits<Machine>::CPUS;
+    static const bool switching = true;
+public:
+    template <typename ... Tn>
+    LOST(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
+
+    unsigned int current_queue;
+
+    operator const volatile int() const volatile {
+        // maps the proccess to first or second half, depending on the current_queue
+        return _priority * current_queue;
+    }
+
+
+    static unsigned int current_head() { return CPU::id(); }
+    // static unsigned int current_queue() { return current_queue; }
+
+    bool swap_queues() {
+        // MAIN and IDLE should always be kept on the first queue
+        if (_priority == MAIN || _priority == IDLE) return false;
+        
+        if(current_queue == 1) {
+            current_queue = 2;
+            return true;
+        } else {
+            current_queue = 1;
+            return false;
+        }
+    }
+
+    bool improvePriority()
+    {
+        if ((_priority > HIGH) && (_priority <= NORMAL))
+        {
+            // Increase priority
+            _priority--;
+        }
+        return true;
+    }
+};
+
+// Partitioned Multicore Scheduler
+/*
+In this Partitioned Multicore Scheduler, we will separate the M cores in 3 groups:
+- Group 1 will be responsible for IO tasks -> they are more preempted, aka, enter SLEEP more often
+- Group 2 will be responsible for CPU (math) tasks
+
+when an interrupt is received, depending on the task type, the thread will be assigned to
+a queue on that group's core
+
+TO USE SCHEDULING MULTILIST:
+// Doubly-Linked, Scheduling Multilist
+// Besides declaring "Criterion", objects subject to scheduling policies that
+// use the Multilist must export the QUEUES constant to indicate the number of
+// sublists in the list, the current_queue() class method to designate the
+// queue to which the current operation applies, and the queue() method to
+// return the queue in which the object currently resides
+*/
+class PMS: public RR
+{
+public:
+    static const unsigned int HEADS = Traits<Machine>::CPUS;
+    static const bool switching = true;
+public:
+    template <typename ... Tn>
+    PMS(int p = NORMAL, Tn & ... an): RR(p), current_queue{1} { }
+
+    unsigned int current_queue;
+
+    operator const volatile int() const volatile {
+        return _priority * current_queue;
+    }
+
+    static unsigned int current_head() { return CPU::id(); }
+
+    bool swap_queues() {
+        if (_priority == MAIN || _priority == IDLE) return false;
+
+        if(current_queue == 1) {
+            current_queue = 2;
+        } else {
+            current_queue = 1;
+        }
+
+        return true;
+    }
+
+    bool improvePriority()
+    {
+        if ((_priority > HIGH) && (_priority <= NORMAL))
+        {
+            // Increase priority
+            _priority--;
+        }
+        return true;
+    }
+};
+
 __END_SYS
+
+__BEGIN_UTIL
+
+// Scheduling Queues
+template<typename T>
+class Scheduling_Queue<T, GRR>:
+public Multihead_Scheduling_List<T> {};
+
+// LOST
+//template<typename T>
+//class Scheduling_Queue<T, LOST>:
+//public Multihead_Scheduling_List<T> {};
+
+
+// PMS
+// template<typename T>
+// class Scheduling_Queue<T, PMS>:
+// public Scheduling_Multilist<T> {};
+template<typename T>
+class Scheduling_Queue<T, PMS>:
+public Multihead_Scheduling_List<T> {};
+
+__END_UTIL
 
 #endif

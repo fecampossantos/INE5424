@@ -19,6 +19,9 @@ class Machine: private Machine_Common
     friend class Init_Begin;
     friend class Init_System;
 
+private:
+    static const bool multicore = Traits<System>::multicore;
+
 public:
     Machine() {}
 
@@ -32,7 +35,18 @@ public:
     static const UUID & uuid() { return System::info()->bm.uuid; }
 
 private:
-    static void pre_init(System_Info * si) {}
+    //static void smp_barrier_init(unsigned int n_cpus) {};
+    static void smp_barrier_init(unsigned int n_cpus) {
+        db<Machine>(TRC) << "SMP::init()" << endl;
+
+        IC::int_vector(CLINT::IRQ_MAC_SOFT, IC::ipi_eoi);
+        Machine::delay(100000);
+        for (unsigned int i = 1; i < n_cpus; i++) {
+            IC::ipi(i, CLINT::IRQ_MAC_SOFT);
+        }
+    }
+
+    static void pre_init(System_Info * si);
     static void init();
 };
 

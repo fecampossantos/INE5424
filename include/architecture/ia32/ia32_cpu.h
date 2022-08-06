@@ -13,6 +13,9 @@ class CPU: private CPU_Common
     friend class Init_System;
     friend class Machine;
 
+private:
+    static const bool multicore = Traits<System>::multicore;
+
 public:
     // Native Data Types
     using CPU_Common::Reg8;
@@ -345,7 +348,7 @@ public:
     static void fr(Reg r) { eax(r); }
 
     static volatile unsigned int id();
-    static unsigned int cores() { return 1; }
+    static unsigned int cores() { return multicore ? _cores : 1; }
 
     static Hertz clock() { return _cpu_current_clock; }
     static void clock(Hertz frequency) {
@@ -409,7 +412,7 @@ public:
         return compare;
     }
 
-    static void smp_barrier(unsigned long cores = cores()) { CPU_Common::smp_barrier<&finc>(cores, id()); }
+    static void smp_barrier(unsigned long cores = CPU::cores()) { CPU_Common::smp_barrier<&finc>(cores, id()); }
 
     // MMU operations
     static Reg  pd() { return cr3(); }
@@ -439,9 +442,9 @@ public:
 
     template<typename ... Tn>
     static Context * init_stack(Log_Addr usp, Log_Addr sp, void (* exit)(), int (* entry)(Tn ...), Tn ... an) {
-        // Multitasking scenarios use this method with USP != 0, what causes two contexts to be pushed into the thread's stack.
+        // Multitasking scenarios use this method with USP != 0 for application threads, what causes two contexts to be pushed into the thread's stack.
         // The context pushed first (and popped last) is the "regular" one, with entry pointing to the thread's entry point.
-        // The second context (popped first) is a dummy context that has _int_leave as entry point. It is a system-level context (CPL=0),
+        // The second context (popped first) is a dummy context that has first_dispatch as entry point. It is a system-level context (CPL=0),
         // so switch_context doesn't need to care for cross-level IRETs.
 
         sp -= SIZEOF<Tn ... >::Result;
@@ -596,10 +599,11 @@ private:
     }
     static void init_stack_helper(Log_Addr sp) {}
 
-    static void smp_barrier_init(unsigned int cores) {}
+    static void smp_barrier_init(unsigned int cores);
     static void init();
 
 private:
+    static volatile unsigned int _cores;
     static Hertz _cpu_clock;
     static Hertz _cpu_current_clock;
     static Hertz _bus_clock;

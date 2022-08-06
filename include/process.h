@@ -9,7 +9,11 @@
 #include <utility/handler.h>
 #include <scheduler.h>
 
-extern "C" { void __exit(); }
+extern "C" { 
+    void __exit();
+    void _lock_heap();
+    void _unlock_heap();
+}
 
 __BEGIN_SYS
 
@@ -22,16 +26,28 @@ class Thread
     friend class Alarm;                 // for lock()
     friend class System;                // for init()
     friend class IC;                    // for link() for priority ceiling
+    friend void ::_lock_heap();         // for lock()
+    friend void ::_unlock_heap();       // for unlock()
 
 protected:
     static const bool preemptive = Traits<Thread>::Criterion::preemptive;
     static const bool reboot = Traits<System>::reboot;
+    // static const bool multicore = Traits<Thread>::multicore; // CPU::cores() > 1
+    // static const bool multicore = CPU::cores() > 1;
 
-    static const unsigned int QUANTUM = Traits<Thread>::QUANTUM;
-    static const unsigned int STACK_SIZE = Traits<Application>::STACK_SIZE;
+  // static const unsigned int QUANTUM = Traits<Thread>::QUANTUM;
+  // static const unsigned int STACK_SIZE = Traits<Application>::STACK_SIZE;
 
-    typedef CPU::Log_Addr Log_Addr;
-    typedef CPU::Context Context;
+  // added for P3
+  // static const bool smp = Traits<Thread>::smp;
+  // static const bool monitored = Traits<Thread>::monitored;
+
+  // added for P3
+  static const unsigned int QUANTUM = Traits<Thread>::QUANTUM;
+  static const unsigned int STACK_SIZE = Traits<Application>::STACK_SIZE;
+
+  typedef CPU::Log_Addr Log_Addr;
+  typedef CPU::Context Context;
 
 public:
     // Thread State
@@ -42,6 +58,13 @@ public:
         WAITING,
         FINISHING
     };
+
+  // Thread Type
+  enum Type
+  {
+    IO_BOUND,
+    CPU_BOUND
+  };
 
     // Thread Scheduling Criterion
     typedef Traits<Thread>::Criterion Criterion;
@@ -58,12 +81,13 @@ public:
 
     // Thread Configuration
     struct Configuration {
-        Configuration(const State & s = READY, const Criterion & c = NORMAL, unsigned int ss = STACK_SIZE)
-        : state(s), criterion(c), stack_size(ss) {}
+        Configuration(const State & s = READY, const Criterion & c = NORMAL, unsigned int ss = STACK_SIZE, const Type & t = CPU_BOUND)
+        : state(s), criterion(c), stack_size(ss), type(t) {}
 
         State state;
         Criterion criterion;
         unsigned int stack_size;
+	    Type type;
     };
 
 
@@ -74,8 +98,9 @@ public:
     Thread(const Configuration & conf, int (* entry)(Tn ...), Tn ... an);
     ~Thread();
 
-    const volatile State & state() const { return _state; }
-    const volatile Criterion::Statistics & statistics() { return criterion().statistics(); }
+  const volatile State &state() const { return _state; }
+  const volatile Type &type() const { return _type; }
+  const volatile Criterion::Statistics &statistics() { return criterion().statistics(); }
 
     const volatile Criterion & priority() const { return _link.rank(); }
     void priority(const Criterion & p);
@@ -89,24 +114,39 @@ public:
     static void yield();
     static void exit(int status = 0);
 
+    Criterion & criterion() { return const_cast<Criterion &>(_link.rank()); }
+
 protected:
     void constructor_prologue(unsigned int stack_size);
     void constructor_epilogue(Log_Addr entry, unsigned int stack_size);
 
-    Criterion & criterion() { return const_cast<Criterion &>(_link.rank()); }
     Queue::Element * link() { return &_link; }
 
     static Thread * volatile running() { return _scheduler.chosen(); }
 
-    static void lock() { CPU::int_disable(); }
-    static void unlock() { CPU::int_enable(); }
-    static bool locked() { return CPU::int_disabled(); }
+    static void lock(Spin * lock = &_lock) {
+        CPU::int_disable();
+        if(CPU::cores() > 1) {
+            lock->acquire();
+        }
+    }
+
+    static void unlock(Spin * lock = &_lock) {
+        if(CPU::cores() > 1) {
+            lock->release();
+        }
+        CPU::int_enable();
+    }
+    static volatile bool locked() { return CPU::int_disabled(); }
+    // static volatile bool locked() { return (CPU::cores() > 1) ? _lock.taken() : CPU::int_disabled(); }
 
     static void sleep(Queue * q);
     static void wakeup(Queue * q);
     static void wakeup_all(Queue * q);
 
     static void reschedule();
+    static void reschedule(unsigned int cpu);
+    static void rescheduler(IC::Interrupt_Id i);
     static void time_slicer(IC::Interrupt_Id interrupt);
 
     static void dispatch(Thread * prev, Thread * next, bool charge = true);
@@ -124,24 +164,31 @@ protected:
     Thread * volatile _joining;
     Queue::Element _link;
 
+    // counts how many times this process waited for IO
+    volatile unsigned int _waiting_count;
+    // defines if process uses more IO or CPU
+    volatile Type _type;
+
     static volatile unsigned int _thread_count;
     static Scheduler_Timer * _timer;
     static Scheduler<Thread> _scheduler;
+    static Spin _lock;
 };
 
-
-template<typename ... Tn>
-inline Thread::Thread(int (* entry)(Tn ...), Tn ... an)
-: _state(READY), _waiting(0), _joining(0), _link(this, NORMAL)
+template <typename... Tn>
+inline Thread::Thread(int (*entry)(Tn...), Tn... an)
+    : _state(READY), _waiting(0), _joining(0), _link(this, NORMAL), _waiting_count(0), _type(CPU_BOUND)
 {
     constructor_prologue(STACK_SIZE);
     _context = CPU::init_stack(0, _stack + STACK_SIZE, &__exit, entry, an ...);
     constructor_epilogue(entry, STACK_SIZE);
 }
 
-template<typename ... Tn>
-inline Thread::Thread(const Configuration & conf, int (* entry)(Tn ...), Tn ... an)
-: _state(conf.state), _waiting(0), _joining(0), _link(this, conf.criterion)
+template <typename... Tn>
+inline Thread::Thread(const Configuration &conf, int (*entry)(Tn...), Tn... an)
+    : _state(conf.state), _waiting(0), _joining(0), _link(this, conf.criterion), _waiting_count(0), _type(conf.type)
+    // : _state(conf.state), _waiting(0), _joining(0), _link(this, conf.criterion), _waiting_count(0), _type(CPU_BOUND)
+
 {
     constructor_prologue(conf.stack_size);
     _context = CPU::init_stack(0, _stack + conf.stack_size, &__exit, entry, an ...);

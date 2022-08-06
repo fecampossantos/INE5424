@@ -21,7 +21,7 @@ template<> struct Traits<Build>: public Traits_Tokens
     static const bool enabled = true;
     static const bool monitored = true;
     static const bool debugged = true;
-    static const bool hysterically_debugged = false;
+    static const bool hysterically_debugged = true;
 
     // Default aspects
     typedef ALIST<> ASPECTS;
@@ -31,8 +31,8 @@ template<> struct Traits<Build>: public Traits_Tokens
 // Utilities
 template<> struct Traits<Debug>: public Traits<Build>
 {
-    static const bool error   = true;
-    static const bool warning = true;
+    static const bool error   = false;
+    static const bool warning = false;
     static const bool info    = false;
     static const bool trace   = false;
 };
@@ -120,10 +120,11 @@ template<> struct Traits<Thread>: public Traits<Build>
 {
     static const bool enabled = Traits<System>::multithread;
     static const bool smp = Traits<System>::multicore;
-    static const bool trace_idle = hysterically_debugged;
+    static const bool trace_idle = true;
     static const bool simulate_capacity = false;
     static const unsigned int QUANTUM = 10000; // us
 
+  // typedef LOST Criterion;
     typedef PMS Criterion;
 };
 
@@ -145,20 +146,6 @@ template<> struct Traits<Alarm>: public Traits<Build>
 template<> struct Traits<Address_Space>: public Traits<Build> {};
 
 template<> struct Traits<Segment>: public Traits<Build> {};
-
-template<> struct Traits<Monitor>: public Traits<Build>
-{
-    static const bool enabled = monitored;
-
-    static constexpr unsigned long SYSTEM_EVENTS[]                 = { ELAPSED_TIME, DEADLINE_MISSES, CPU_EXECUTION_TIME, THREAD_EXECUTION_TIME, RUNNING_THREAD };
-    static constexpr unsigned long SYSTEM_EVENTS_FREQUENCIES[]     = {            1,               1,                  1,                     1,              1 }; // in Hz
-
-    static constexpr unsigned long PMU_EVENTS[]                    = { INSTRUCTIONS_RETIRED, BRANCHES, CACHE_MISSES };
-    static constexpr unsigned long PMU_EVENTS_FREQUENCIES[]        = {                     1,        1,            1}; // in Hz
-
-    static constexpr unsigned long TRANSDUCER_EVENTS[]             = { CPU_VOLTAGE, CPU_TEMPERATURE };
-    static constexpr unsigned long TRANSDUCER_EVENTS_FREQUENCIES[] = {           1,               1 }; // in Hz
-};
 
 __END_SYS
 
